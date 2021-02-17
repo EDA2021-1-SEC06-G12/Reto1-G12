@@ -36,8 +36,16 @@ los mismos.
 """
 
 # Construccion de modelos
+def initCatalog():
+    return {
+            'videos': lt.newList('SINGLE_LINKED')
+
+    }
+
 
 # Funciones para agregar informacion al catalogo
+def addVideo(catalog,video):
+    lt.addLast(catalog['videos'],video)
 
 # Funciones para creacion de datos
 
