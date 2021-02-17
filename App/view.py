@@ -55,7 +55,7 @@ while True:
         print("Cargando información de los archivos ...")
         catalog = controller.initCatalog()
         controller.loadData(catalog)
-        print("Se cargaron " + str(lt.size(catalog['videos'])) + " datos de video.")
+        print("Se cargaron " + str(lt.size(catalog['videos'])) + " datos de video y " + str(lt.size(catalog['categories'])) + " de categorías.")
 
     elif int(inputs[0]) == 2:
         print("Se ejecutó el requerimiento")

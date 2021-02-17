@@ -38,15 +38,17 @@ los mismos.
 # Construccion de modelos
 def initCatalog():
     return {
-            'videos': lt.newList('SINGLE_LINKED')
-
-    }
+            'videos': lt.newList('SINGLE_LINKED'),
+            'categories': lt.newList('SINGLE_LINKED')
+            }
 
 
 # Funciones para agregar informacion al catalogo
 def addVideo(catalog,video):
     lt.addLast(catalog['videos'],video)
 
+def addCategory(catalog,category):
+    lt.addLast(catalog['categories'],category)
 # Funciones para creacion de datos
 
 # Funciones de consulta
