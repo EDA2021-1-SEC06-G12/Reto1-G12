@@ -38,8 +38,8 @@ los mismos.
 # Construccion de modelos
 def initCatalog():
     return {
-            'videos': lt.newList('SINGLE_LINKED'),
-            'categories': lt.newList('SINGLE_LINKED')
+            'videos': lt.newList('ARRAY_LIST'),
+            'categories': lt.newList('ARRAY_LIST')
             }
 
 
