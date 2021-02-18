@@ -67,7 +67,7 @@ while True:
         print("\nInformación del primer video cargado \n" + "Título: " + titulo + "\nTítulo del canal: " + canal + "\nTrending date: " + trendingdate + "\nPaís: " + pais + "\nVistas: " + views + "\nLikes: " + likes + "\nDislikes: " + dislikes)
         print("\nLista de categorías " + "\nID - Nombre")
         n=1
-        while n < lt.size(catalog['categories']):
+        while n <= lt.size(catalog['categories']):
             x=lt.getElement(catalog['categories'],n)
             print(str(x['id']) + " - " + str(x['name']))
             n=n+1
