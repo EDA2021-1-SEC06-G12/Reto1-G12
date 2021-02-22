@@ -26,8 +26,11 @@
 
 
 import config as cf
+import time
 from DISClib.ADT import list as lt
-from DISClib.Algorithms.Sorting import shellsort as sa
+from DISClib.Algorithms.Sorting import shellsort as shes
+from DISClib.Algorithms.Sorting import insertionsort as inss
+from DISClib.Algorithms.Sorting import selectionsort as sels
 assert cf
 
 """
@@ -36,10 +39,10 @@ los mismos.
 """
 
 # Construccion de modelos
-def initCatalog():
+def initCatalog(dataStructure):
     return {
-            'videos': lt.newList('ARRAY_LIST'),
-            'categories': lt.newList('ARRAY_LIST')
+            'videos': lt.newList(dataStructure),
+            'categories': lt.newList(dataStructure)
             }
 
 
@@ -49,6 +52,31 @@ def addVideo(catalog,video):
 
 def addCategory(catalog,category):
     lt.addLast(catalog['categories'],category)
+
+def cmpVideosbyViews(video1,video2):
+    return(video1["views"]<video2["views"])
+
+def sortVideos(catalog, size, algorithm):
+    sub_list = lt.subList(catalog['videos'], 0, size)
+    sub_list = sub_list.copy()
+
+    if algorithm == "shell":
+        start_time = time.process_time()
+        shes.sort(sub_list, cmpVideosbyViews)
+        stop_time = time.process_time()
+
+    elif algorithm == "selection":
+        start_time = time.process_time()
+        sels.sort(sub_list, cmpVideosbyViews)
+        stop_time = time.process_time()
+
+    elif algorithm == "insertion":
+        start_time = time.process_time()
+        inss.sort(sub_list, cmpVideosbyViews)
+        stop_time = time.process_time()
+    
+    elapsed_time_mseg = (stop_time - start_time)*1000
+    return elapsed_time_mseg
 # Funciones para creacion de datos
 
 # Funciones de consulta
