@@ -75,7 +75,7 @@ while True:
 
     elif int(inputs[0]) == 2:
         numeroDeElementos = int(input("Número de datos: "))
-        algoritmo = input("¿Cuál algoritmo? (shell/insertion/)")
+        algoritmo = input("¿Cuál algoritmo? (shell/insertion/selection)")
         print(controller.mejoresVideosPorViews(catalog,numeroDeElementos,algoritmo))
 
     elif int(inputs[0]) == 3:
