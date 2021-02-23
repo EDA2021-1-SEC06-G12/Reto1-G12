@@ -54,7 +54,7 @@ def addCategory(catalog,category):
     lt.addLast(catalog['categories'],category)
 
 def cmpVideosbyViews(video1,video2):
-    return(video1["views"]<video2["views"])
+    return(int(video1["views"])<int(video2["views"]))
 
 def sortVideos(catalog, size, algorithm):
     sub_list = lt.subList(catalog['videos'], 0, size)
@@ -75,7 +75,7 @@ def sortVideos(catalog, size, algorithm):
         inss.sort(sub_list, cmpVideosbyViews)
         stop_time = time.process_time()
     
-    elapsed_time_mseg = (stop_time - start_time)*1000
+    elapsed_time_mseg = round((stop_time - start_time)*1000,2)
     return elapsed_time_mseg
 # Funciones para creacion de datos
 
