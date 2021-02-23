@@ -41,8 +41,8 @@ los mismos.
 # Construccion de modelos
 def initCatalog(dataStructure):
     return {
-            'videos': lt.newList(dataStructure),
-            'categories': lt.newList(dataStructure)
+            'videos': lt.newList(dataStructure, cmpfunction=cmpVideosbyViews),
+            'categories': lt.newList(dataStructure, cmpfunction=cmpVideosbyViews)
             }
 
 
