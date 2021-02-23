@@ -50,9 +50,14 @@ Menu principal
 """
 while True:
     printMenu()
-    inputs = input('Seleccione una opción para continuar\n')
+    inputs = input('Seleccione una opción para continuar: ')
     if int(inputs[0]) == 1:
-        estructuraDeDatos = input("Cuál estructura de datos? (ARRAY_LIST/LINKED_LIST)")
+        print('\nIngrese el número del tipo de lista en el que desee cargar el catálogo: \n1 - LINKED_LIST \n2 - ARRAY_LIST')
+        ed=int(input(''))
+        if ed==1:
+            estructuraDeDatos = "LINKED_LIST"
+        elif ed==2:
+            estructuraDeDatos = "ARRAY_LIST"
         print("\nCargando información de los archivos...")
         catalog = controller.initCatalog(estructuraDeDatos)
         controller.loadData(catalog)
@@ -72,20 +77,36 @@ while True:
             x=lt.getElement(catalog['categories'],n)
             print(str(x['id']) + " - " + str(x['name']))
             n=n+1
+        print('\n')
+
 
     elif int(inputs[0]) == 2:
-        numeroDeElementos = int(input("Número de datos: "))
-        algoritmo = input("¿Cuál algoritmo? (shell/insertion/selection)")
+        numeroDeElementos = int(input("\nIngrese el número de videos que desee: \n"))
+        print('\nIngrese el número del algoritmo con el cual desea ordenar el catálogo por vistas: \n1 - shell \n2 - insertion \n3 - selection')
+        alg=int(input(''))
+        if alg==1:
+            algoritmo='shell'
+        elif alg==2:
+            algoritmo='insertion'
+        elif alg==3:
+            algoritmo='selection'
+        
+        print('Cargando...\n')
         print(controller.mejoresVideosPorViews(catalog,numeroDeElementos,algoritmo))
+        print('\n')
+
 
     elif int(inputs[0]) == 3:
         print("Se ejecutó el requerimiento")
 
+
     elif int(inputs[0]) == 4:
         print("Se ejecutó el requerimiento")
 
+
     elif int(inputs[0]) == 5:
         print("Se ejecutó el requerimiento")
+
 
     else:
         sys.exit(0)
