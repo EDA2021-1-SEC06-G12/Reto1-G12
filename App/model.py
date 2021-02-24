@@ -57,23 +57,34 @@ def cmpVideosbyViews(video1,video2):
     return(int(video1["views"])<=int(video2["views"]))
 
 def sortVideos(catalog, size, algorithm):
-    sub_list = lt.subList(catalog['videos'], 0, size)
-    sub_list = sub_list.copy()
+    if size<= lt.size(catalog['videos']):
+        sub_list = lt.subList(catalog['videos'], 0, size)
+        sub_list = sub_list.copy()
 
-    if algorithm == "shell":
-        start_time = time.perf_counter()
-        shes.sort(sub_list, cmpVideosbyViews)
-        stop_time = time.perf_counter()
+        if algorithm == "shell":
+            start_time = time.process_time()
+            shes.sort(sub_list, cmpVideosbyViews)
+            stop_time = time.process_time()
 
-    elif algorithm == "selection":
-        start_time = time.perf_counter()
-        sels.sort(sub_list, cmpVideosbyViews)
-        stop_time = time.perf_counter()
+        elif algorithm == "selection":
+            start_time = time.process_time()
+            sels.sort(sub_list, cmpVideosbyViews)
+            stop_time = time.process_time()
 
-    elif algorithm == "insertion":
-        start_time = time.perf_counter()
-        inss.sort(sub_list, cmpVideosbyViews)
-        stop_time = time.perf_counter()
-    
-    elapsed_time_mseg = round((stop_time - start_time)*1000,2)
-    return elapsed_time_mseg
+        elif algorithm == "insertion":
+            start_time = time.process_time()
+            inss.sort(sub_list, cmpVideosbyViews)
+            stop_time = time.process_time()
+        
+        elapsed_time_mseg = round((stop_time - start_time)*1000,2)
+        return elapsed_time_mseg
+    else:
+        return 'La cifra insertada excede la cantidad de datos de video disponibles.'
+# Funciones para creacion de datos
+
+# Funciones de consulta
+
+# Funciones utilizadas para comparar elementos dentro de una lista
+
+# Funciones de ordenamiento
+
