@@ -65,7 +65,7 @@ while True:
         views=str(video_uno['views'])
         likes=str(video_uno['likes'])
         dislikes=str(video_uno['dislikes'])
-        print("\nInformación del primer video cargado \n" + "Título: " + titulo + "\nTítulo del canal: " + canal + "\nTrending date: " + trendingdate + "\nPaís: " + pais + "\nVistas: " + views + "\nLikes: " + likes + "\nDislikes: " + dislikes)
+        print("\nInformación del primer video cargado \n" + "Título: " + titulo + "\nTítulo del canal: " + canal + "\nTrending date: " + trendingdate + "\nPaís: " + pais + "\nVistas: " + views + "\nLike1s: " + likes + "\nDislikes: " + dislikes)
         print("\nLista de categorías " + "\nID - Nombre")
         n=1
         while n <= lt.size(catalog['categories']):
@@ -77,7 +77,7 @@ while True:
         numeroDeElementos = int(input("Número de datos: "))
         algoritmo = input("¿Cuál algoritmo? (shell/insertion/selection)")
         print(controller.mejoresVideosPorViews(catalog,numeroDeElementos,algoritmo))
-
+        
     elif int(inputs[0]) == 3:
         print("Se ejecutó el requerimiento")
 
