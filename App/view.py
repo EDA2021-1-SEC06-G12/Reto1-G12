@@ -102,7 +102,7 @@ while True:
             algoritmo='quick'
         
         print('Cargando...\n')
-        print(controller.mejoresVideosPorViews(catalog,numeroDeElementos,algoritmo))
+        print((controller.mejoresVideosPorViews(catalog,numeroDeElementos,algoritmo))[0])
         print('\n')
 
     elif int(inputs[0]) == 6:
