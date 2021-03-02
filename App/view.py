@@ -96,6 +96,10 @@ while True:
             algoritmo='insertion'
         elif alg==3:
             algoritmo='selection'
+        elif alg==4:
+            algoritmo='merge'
+        elif alg==5:
+            algoritmo='quick'
         
         print('Cargando...\n')
         print(controller.mejoresVideosPorViews(catalog,numeroDeElementos,algoritmo))

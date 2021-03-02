@@ -78,7 +78,16 @@ def sortVideos(catalog, size, algorithm):
             start_time = time.process_time()
             inss.sort(sub_list, cmpVideosbyViews)
             stop_time = time.process_time()
+            
+        elif algorithm == 'merge':
+            start_time=time.process_time()
+            mrge.sort(sub_list, cmpVideosbyViews)
+            stop_time=time.process_time()
         
+        elif algorithm == 'quick':
+            start_time=time.process_time()
+            quck.sort(sub_list, cmpVideosbyViews)
+            stop_time=time.process_time()
         elapsed_time_mseg = round((stop_time - start_time)*1000,2)
         return elapsed_time_mseg, sub_list
     else:
