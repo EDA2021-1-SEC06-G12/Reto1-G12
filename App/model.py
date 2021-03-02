@@ -31,6 +31,8 @@ from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import shellsort as shes
 from DISClib.Algorithms.Sorting import insertionsort as inss
 from DISClib.Algorithms.Sorting import selectionsort as sels
+from DISClib.Algorithms.Sorting import mergesort as merge
+from DISClib.Algorithms.Sorting import quicksort as quck
 assert cf
 
 """
@@ -54,11 +56,12 @@ def addCategory(catalog,category):
     lt.addLast(catalog['categories'],category)
 
 def cmpVideosbyViews(video1,video2):
-    return(int(video1["views"])<=int(video2["views"]))
+    return(int(video1["views"])>=int(video2["views"]))
 
 def sortVideos(catalog, size, algorithm):
-    if size<= lt.size(catalog['videos']):
-        sub_list = lt.subList(catalog['videos'], 0, size)
+    videos=catalog['videos']
+    if size <= lt.size(videos):
+        sub_list = lt.subList(videos, 1, size)
         sub_list = sub_list.copy()
 
         if algorithm == "shell":
@@ -77,9 +80,30 @@ def sortVideos(catalog, size, algorithm):
             stop_time = time.process_time()
         
         elapsed_time_mseg = round((stop_time - start_time)*1000,2)
-        return elapsed_time_mseg
+        return elapsed_time_mseg, sub_list
     else:
         return 'La cifra insertada excede la cantidad de datos de video disponibles.'
+
+def categoriaporID(name,catalog):
+    categorias=catalog['categories']
+    n=1
+    while n<lt.size(categorias):
+        c=lt.getElement(categorias,n)
+        if name.lower() in (c['name']).lower():
+            return c['id']
+        n+=1
+
+def Req1(pais,categoria,catalog,num):
+    lista=((sortVideos(catalog,lt.size(catalog['videos']),'shell'))[1])
+    ID=categoriaporID(categoria,catalog)
+    final=lt.newList()
+    n=1
+    while n<lt.size(lista) and lt.size(final)<num:
+        v=lt.getElement(lista,n)
+        if v['country'].lower()==pais.lower() and v['category_id']==ID:
+            lt.addLast(final,v)
+        n+=1
+    return final
 # Funciones para creacion de datos
 
 # Funciones de consulta

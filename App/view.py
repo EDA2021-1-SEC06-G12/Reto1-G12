@@ -37,7 +37,7 @@ operación solicitada
 """
 
 def printMenu():
-    print("Bienvenidos")
+    print("Bienvenida/o")
     print("1- Cargar información en el catálogo")
     print("2- Consultar el número que se desee de videos con más views que son tendencia en el país y categoría de interés")
     print("3- Consultar el video que ha estado trending por más días en el país que se desee")
@@ -74,7 +74,9 @@ while True:
         views=str(video_uno['views'])
         likes=str(video_uno['likes'])
         dislikes=str(video_uno['dislikes'])
-        print("\nInformación del primer video cargado \n" + "Título: " + titulo + "\nTítulo del canal: " + canal + "\nTrending date: " + trendingdate + "\nPaís: " + pais + "\nVistas: " + views + "\nLike1s: " + likes + "\nDislikes: " + dislikes)
+        ID=str(video_uno['category_id'])
+        print("\nInformación del primer video cargado \n" + "Título: " + titulo + "\nTítulo del canal: " + canal + "\nTrending date: " + trendingdate + "\nPaís: " + pais + "\nVistas: " + views + "\nLikes: " + likes + "\nDislikes: " + dislikes+'\n')
+        print(ID)
         print("\nLista de categorías " + "\nID - Nombre")
         n=1
         while n <= lt.size(catalog['categories']):
@@ -86,7 +88,7 @@ while True:
 
     elif int(inputs[0]) == 2:
         numeroDeElementos = int(input("\nIngrese el número de videos que desee: \n"))
-        print('\nIngrese el número del algoritmo con el cual desea ordenar el catálogo por vistas: \n1 - shell \n2 - insertion \n3 - selection')
+        print('\nIngrese el número del algoritmo con el cual desea ordenar el catálogo por vistas: \n1 - shell \n2 - insertion \n3 - selection \n4 - merge \n5- quick')
         alg=int(input(''))
         if alg==1:
             algoritmo='shell'
@@ -98,6 +100,25 @@ while True:
         print('Cargando...\n')
         print(controller.mejoresVideosPorViews(catalog,numeroDeElementos,algoritmo))
         print('\n')
+
+    elif int(inputs[0]) == 6:
+        numero=int(input('Ingrese el número de videos: '))
+        pais=input('Ingrese el país: ')
+        categoria=input('Ingrese la categoría: ')
+        print('\nCargando...\n')
+        l=controller.Requerimiento1(pais,categoria,catalog,numero)
+        n=1
+        while n<=lt.size(l):
+            v=lt.getElement(l,n)
+            trending_date=v['trending_date']
+            title=v['title']
+            channel_title=v['channel_title']
+            publish_time=v['publish_time']
+            views=time=v['views']
+            likes=v['likes']
+            dislikes=v['dislikes']
+            print('Puesto ' + str(n) + '\ntrending_date: ' + trending_date + '; title: ' + title +'; channel_title: '+channel_title + '; publish_time: ' +publish_time +'; views: '+views+'; likes: '+likes+ '; dislikes: ' + dislikes + '\n')
+            n+=1
 
     elif int(inputs[0]) == 3:
         print("Se ejecutó el requerimiento")

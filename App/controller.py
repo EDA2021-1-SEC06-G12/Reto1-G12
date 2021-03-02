@@ -46,7 +46,8 @@ def loadData(catalog):
 def mejoresVideosPorViews(catalog, size, algorithm):
     return model.sortVideos(catalog,size,algorithm)
 
-
+def Requerimiento1(pais,categoria,catalog,num):
+    return model.Req1(pais,categoria,catalog,num)
 # Funciones para la carga de datos
 
 # Funciones de ordenamiento
