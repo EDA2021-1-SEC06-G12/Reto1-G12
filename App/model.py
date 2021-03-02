@@ -31,7 +31,7 @@ from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import shellsort as shes
 from DISClib.Algorithms.Sorting import insertionsort as inss
 from DISClib.Algorithms.Sorting import selectionsort as sels
-from DISClib.Algorithms.Sorting import mergesort as merge
+from DISClib.Algorithms.Sorting import mergesort as mrge
 from DISClib.Algorithms.Sorting import quicksort as quck
 assert cf
 
