@@ -23,6 +23,7 @@
 import config as cf
 import sys
 import controller
+import model
 from DISClib.ADT import list as lt
 assert cf
 
@@ -125,7 +126,13 @@ while True:
             n+=1
 
     elif int(inputs[0]) == 3:
-        print("Se ejecutó el requerimiento")
+        categoria=input('Ingrese la categoría: ')
+        final=controller.Requerimiento3(categoria,catalog)
+        title=final[0]
+        channel_title=final[1]
+        category_id=final[2]
+        dias=final[3]
+        print('\ntitle: '+title+'; channel_title: '+channel_title+'; category_id: '+category_id+'; días: '+str(dias) +'\n')
 
 
     elif int(inputs[0]) == 4:
