@@ -48,6 +48,9 @@ def mejoresVideosPorViews(catalog, size, algorithm):
 
 def Requerimiento1(pais,categoria,catalog,num):
     return model.Req1(pais,categoria,catalog,num)
+
+def Requerimiento3(categoria,catalog):
+    return model.buscarportitulo(categoria,catalog)
 # Funciones para la carga de datos
 
 # Funciones de ordenamiento

@@ -96,7 +96,7 @@ def sortVideos(catalog, size, algorithm):
 def categoriaporID(name,catalog):
     categorias=catalog['categories']
     n=1
-    while n<lt.size(categorias):
+    while n<=lt.size(categorias):
         c=lt.getElement(categorias,n)
         if name.lower() in (c['name']).lower():
             return c['id']
@@ -113,6 +113,85 @@ def Req1(pais,categoria,catalog,num):
             lt.addLast(final,v)
         n+=1
     return final
+
+def listaporcategoria(categoria,catalog):
+    final=lt.newList()
+    ID=categoriaporID(categoria,catalog)
+    videos=catalog['videos']
+    n=1
+    while n<=lt.size(videos):
+        video=lt.getElement(videos,n)
+        if video['category_id']==ID:
+            lt.addLast(final,video)
+        n+=1
+    return final
+
+def mayortrending(categoria,catalog):
+    ltporcategorias=listaporcategoria(categoria,catalog)
+    dic={}
+    n=1
+    while n<=lt.size(ltporcategorias):
+        video=lt.getElement(ltporcategorias,n)
+        if video['title'] in dic.keys():
+            l=dic[video['title']]
+            x=lt.isPresent(l,video['trending_date'])
+            if x==0:
+                lt.addLast(l,video['trending_date'])
+            n+=1
+        else:
+            l=lt.newList()
+            lt.addLast(l,video['trending_date'])
+            dic[video['title']]=l
+            n+=1
+    
+    mayor=0
+    title=''
+    for titulo in dic:
+        lista=dic[titulo]
+        num=lt.size(lista)
+        if num>mayor:
+            mayor=num
+            title=titulo
+
+    return title, mayor
+    
+def buscarportitulo(categoria,catalog):
+    titulo=mayortrending(categoria,catalog)[0]
+    dias=mayortrending(categoria,catalog)[1]
+    ltporcategorias=listaporcategoria(categoria,catalog)
+    channel_title=''
+    category_id=''
+    n=1
+    centinela=True
+    while n<=lt.size(ltporcategorias) and centinela:
+        video=lt.getElement(ltporcategorias,n)
+        if video['title']==titulo:
+            channel_title=video['channel_title']
+            category_id=video['category_id']
+            centinela=False
+        n+=1
+    return titulo,channel_title,category_id,dias
+    
+def imprimir(titulo,catalog):
+    videos=catalog['videos']
+    m=0
+    n=1
+    l=[]
+    p=[]
+    while n<=lt.size(videos):
+        x=lt.getElement(videos,n)
+        nombre=x['title']
+        if nombre == titulo:
+            m+=1
+            p.append(x['trending_date'])
+            if x['trending_date'] not in l:
+                l.append(x['trending_date'])
+        n+=1
+    print(m)
+    print(l)
+    print(len(l))
+    print(len(p))
+
 # Funciones para creacion de datos
 
 # Funciones de consulta
