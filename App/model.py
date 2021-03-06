@@ -47,64 +47,13 @@ def initCatalog(dataStructure):
             'categories': lt.newList(datastructure=dataStructure)
             }
 
-
-
 def addVideo(catalog,video):
     lt.addLast(catalog['videos'],video)
 
 def addCategory(catalog,category):
     lt.addLast(catalog['categories'],category)
 
-def cmpVideosbyViews(video1,video2):
-    return(int(video1["views"])>=int(video2["views"]))
-
-def cmpVideosbyLikes(video1,video2):
-    return(int(video1["likes"])>=int(video2["likes"]))
-
-def sortVideos(lista, size, algorithm,cmpfunction):
-    videos=lista
-    if size <= lt.size(videos):
-        sub_list = lt.subList(videos, 1, size)
-        sub_list = sub_list.copy()
-
-        if algorithm == "shell":
-            start_time = time.process_time()
-            shes.sort(sub_list, cmpfunction)
-            stop_time = time.process_time()
-
-        elif algorithm == "selection":
-            start_time = time.process_time()
-            sels.sort(sub_list, cmpfunction)
-            stop_time = time.process_time()
-
-        elif algorithm == "insertion":
-            start_time = time.process_time()
-            inss.sort(sub_list, cmpfunction)
-            stop_time = time.process_time()
-            
-        elif algorithm == 'merge':
-            start_time=time.process_time()
-            mrge.sort(sub_list, cmpfunction)
-            stop_time=time.process_time()
-        
-        elif algorithm == 'quick':
-            start_time=time.process_time()
-            quck.sort(sub_list, cmpfunction)
-            stop_time=time.process_time()
-        elapsed_time_mseg = round((stop_time - start_time)*1000,2)
-        return elapsed_time_mseg, sub_list
-    else:
-        return 'La cifra insertada excede la cantidad de datos de video disponibles.'
-
-def categoriaporID(name,catalog):
-    categorias=catalog['categories']
-    n=1
-    while n<=lt.size(categorias):
-        c=lt.getElement(categorias,n)
-        if name.lower() in (c['name']).lower():
-            return c['id']
-        n+=1
-
+# Funciones de consulta
 def Req1(pais,categoria,catalog,num):
     lista=((sortVideos(catalog["videos"],lt.size(catalog['videos']),'merge',cmpVideosbyViews()))[1])
     ID=categoriaporID(categoria,catalog)
@@ -116,6 +65,15 @@ def Req1(pais,categoria,catalog,num):
             lt.addLast(final,v)
         n+=1
     return final
+
+def categoriaporID(name,catalog):
+    categorias=catalog['categories']
+    n=1
+    while n<=lt.size(categorias):
+        c=lt.getElement(categorias,n)
+        if name.lower() in (c['name']).lower():
+            return c['id']
+        n+=1
 
 def listaporcategoria(categoria,catalog):
     final=lt.newList()
@@ -196,11 +154,8 @@ def imprimir(titulo,catalog):
 
 def Req2(pais,catalog):
     listapais = listaporpais(pais,catalog)
-    print(1)
     tupla_titulo_dias = mayortrending(listapais)
-    print(2)
     video = buscarportitulo_simplificado(tupla_titulo_dias[0],listapais)
-    print(3)
     video["dias"] = tupla_titulo_dias[1]
     return video
     
@@ -220,37 +175,6 @@ def listaporpais(pais,catalog):
 
     return listapais
 
-def mayorTrending(lista):
-    dic={}
-    n=1
-    
-    while n<=lt.size(lista):
-        video=lt.getElement(lista,n)
-        titulo = video['title']
-        fecha = video["trending_date"]
-
-        if  titulo in dic.keys():
-            lista_fechas = dic[titulo]
-            x = lt.isPresent(lista_fechas,fecha)
-            if x == 0:
-                lt.addLast(lista_fechas,fecha)
-        else:
-            lista_fechas = lt.newList()
-            lt.addLast(lista_fechas,fecha)
-            dic[titulo] = lista_fechas
-        
-    mayor=0
-    title=''
-    for titulo in dic:
-        lista=dic[titulo]
-        num=lt.size(lista)
-        if num>mayor:
-            mayor=num
-            title=titulo
-
-    return (title,mayor)
-
-
 def buscarportitulo_simplificado(titulo,listapais):
     n=1
     centinela=True
@@ -267,8 +191,6 @@ def Req4(tag,numero_vid,pais,catalog):
     listapaistag = sortVideos(listapaistag,lt.size(listapaistag),"merge",cmpVideosbyLikes)[1]
     return listapaistag
 
-
-
 def listaportag(tag,lista):
     videos = lista
     n = 1
@@ -284,25 +206,52 @@ def listaportag(tag,lista):
     
     return listatag
 
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
 # Funciones para creacion de datos
 
-# Funciones de consulta
+
 
 # Funciones utilizadas para comparar elementos dentro de una lista
+def cmpVideosbyViews(video1,video2):
+    return(int(video1["views"])>=int(video2["views"]))
+
+def cmpVideosbyLikes(video1,video2):
+    return(int(video1["likes"])>=int(video2["likes"]))
 
 # Funciones de ordenamiento
+
+def sortVideos(lista, size, algorithm,cmpfunction):
+    videos=lista
+    if size <= lt.size(videos):
+        sub_list = lt.subList(videos, 1, size)
+        sub_list = sub_list.copy()
+
+        if algorithm == "shell":
+            start_time = time.process_time()
+            shes.sort(sub_list, cmpfunction)
+            stop_time = time.process_time()
+
+        elif algorithm == "selection":
+            start_time = time.process_time()
+            sels.sort(sub_list, cmpfunction)
+            stop_time = time.process_time()
+
+        elif algorithm == "insertion":
+            start_time = time.process_time()
+            inss.sort(sub_list, cmpfunction)
+            stop_time = time.process_time()
+            
+        elif algorithm == 'merge':
+            start_time=time.process_time()
+            mrge.sort(sub_list, cmpfunction)
+            stop_time=time.process_time()
+        
+        elif algorithm == 'quick':
+            start_time=time.process_time()
+            quck.sort(sub_list, cmpfunction)
+            stop_time=time.process_time()
+        elapsed_time_mseg = round((stop_time - start_time)*1000,2)
+        return elapsed_time_mseg, sub_list
+    else:
+        return 'La cifra insertada excede la cantidad de datos de video disponibles.'
+
 

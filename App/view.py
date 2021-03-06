@@ -166,7 +166,6 @@ while True:
         lista_videos = controller.Requerimiento4(tag,numero_vid,pais, catalog)
 
         lista_videos = lt.subList(lista_videos,1,numero_vid)
-        print(lista_videos)
 
         n = 1
         
