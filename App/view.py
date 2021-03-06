@@ -57,16 +57,21 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar: ')
     if int(inputs[0]) == 1:
+
         print('\nIngrese el número del tipo de lista en el que desee cargar el catálogo: \n1 - LINKED_LIST \n2 - ARRAY_LIST')
         ed=int(input(''))
+
         if ed==1:
             estructuraDeDatos = "LINKED_LIST"
         elif ed==2:
             estructuraDeDatos = "ARRAY_LIST"
+
         print("\nCargando información de los archivos...")
         catalog = controller.initCatalog(estructuraDeDatos)
         controller.loadData(catalog)
+
         print("\nSe cargaron " + str(lt.size(catalog['videos'])) + " datos de video y " + str(lt.size(catalog['categories'])) + " de categorías.")
+
         video_uno=lt.getElement(catalog['videos'],1)
         titulo=str(video_uno['title'])
         canal=str(video_uno['channel_title'])
@@ -76,10 +81,12 @@ while True:
         likes=str(video_uno['likes'])
         dislikes=str(video_uno['dislikes'])
         ID=str(video_uno['category_id'])
+
         print("\nInformación del primer video cargado \n" + "Título: " + titulo + "\nTítulo del canal: " + canal + "\nTrending date: " + trendingdate + "\nPaís: " + pais + "\nVistas: " + views + "\nLikes: " + likes + "\nDislikes: " + dislikes+'\n')
         print(ID)
         print("\nLista de categorías " + "\nID - Nombre")
         n=1
+
         while n <= lt.size(catalog['categories']):
             x=lt.getElement(catalog['categories'],n)
             print(str(x['id']) + " - " + str(x['name']))
@@ -136,11 +143,49 @@ while True:
 
 
     elif int(inputs[0]) == 4:
-        print("Se ejecutó el requerimiento")
+        print("Requerimiento 2")
+        pais = input("Ingrese el país: ")
+
+        v = controller.Requerimiento2(pais,catalog)
+        channel_title= v['channel_title']
+        title= v['title']
+        country = v["country"]
+        numero_de_dias = v["dias"]
+
+
+        print('\ntitle: '+title+'; channel_title: '+channel_title+'; country: '+country+'; numero de dias: '+str(numero_de_dias) +'\n')
 
 
     elif int(inputs[0]) == 5:
-        print("Se ejecutó el requerimiento")
+        print("Requerimiento 4")
+
+        tag = input("Ingrese el tag: ")
+        numero_vid = int(input("Ingrese el número de videos: "))
+        pais = input("Ingrese el país: ")
+
+        lista_videos = controller.Requerimiento4(tag,numero_vid,pais, catalog)
+
+        lista_videos = lt.subList(lista_videos,1,numero_vid)
+        print(lista_videos)
+
+        n = 1
+        
+        while n<=lt.size(lista_videos):
+            v = lt.getElement(lista_videos,n)
+            channel_title= v['channel_title']
+            title= v['title']
+            publish_time = str(v["publish_time"])
+            views = str(v["views"])
+            likes = str(v["likes"])
+            dislikes = str(v["dislikes"])
+            tags = v["tags"]
+
+
+            print('\ntitle: '+title+'; channel_title: '+ channel_title +'; publish_time: '+ publish_time +'; views: '+views +'; likes: '+likes+'; dislikes: '+dislikes+'; tags: '+tags+'\n')
+
+            n +=1
+
+
 
 
     else:

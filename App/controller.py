@@ -44,13 +44,22 @@ def loadData(catalog):
         model.addCategory(catalog,category)
 
 def mejoresVideosPorViews(catalog, size, algorithm):
-    return model.sortVideos(catalog,size,algorithm)
+    return model.sortVideos(catalog,size,algorithm, cmpVideosbyViews)
 
 def Requerimiento1(pais,categoria,catalog,num):
     return model.Req1(pais,categoria,catalog,num)
 
+
+def Requerimiento2(pais,catalog):
+    return model.Req2(pais,catalog)
+
+
 def Requerimiento3(categoria,catalog):
     return model.buscarportitulo(categoria,catalog)
+
+def Requerimiento4(tag,numero_vid,pais,catalog):
+    return model.Req4(tag,numero_vid,pais,catalog)
+
 # Funciones para la carga de datos
 
 # Funciones de ordenamiento

@@ -58,35 +58,38 @@ def addCategory(catalog,category):
 def cmpVideosbyViews(video1,video2):
     return(int(video1["views"])>=int(video2["views"]))
 
-def sortVideos(catalog, size, algorithm):
-    videos=catalog['videos']
+def cmpVideosbyLikes(video1,video2):
+    return(int(video1["likes"])>=int(video2["likes"]))
+
+def sortVideos(lista, size, algorithm,cmpfunction):
+    videos=lista
     if size <= lt.size(videos):
         sub_list = lt.subList(videos, 1, size)
         sub_list = sub_list.copy()
 
         if algorithm == "shell":
             start_time = time.process_time()
-            shes.sort(sub_list, cmpVideosbyViews)
+            shes.sort(sub_list, cmpfunction)
             stop_time = time.process_time()
 
         elif algorithm == "selection":
             start_time = time.process_time()
-            sels.sort(sub_list, cmpVideosbyViews)
+            sels.sort(sub_list, cmpfunction)
             stop_time = time.process_time()
 
         elif algorithm == "insertion":
             start_time = time.process_time()
-            inss.sort(sub_list, cmpVideosbyViews)
+            inss.sort(sub_list, cmpfunction)
             stop_time = time.process_time()
             
         elif algorithm == 'merge':
             start_time=time.process_time()
-            mrge.sort(sub_list, cmpVideosbyViews)
+            mrge.sort(sub_list, cmpfunction)
             stop_time=time.process_time()
         
         elif algorithm == 'quick':
             start_time=time.process_time()
-            quck.sort(sub_list, cmpVideosbyViews)
+            quck.sort(sub_list, cmpfunction)
             stop_time=time.process_time()
         elapsed_time_mseg = round((stop_time - start_time)*1000,2)
         return elapsed_time_mseg, sub_list
@@ -103,7 +106,7 @@ def categoriaporID(name,catalog):
         n+=1
 
 def Req1(pais,categoria,catalog,num):
-    lista=((sortVideos(catalog,lt.size(catalog['videos']),'shell'))[1])
+    lista=((sortVideos(catalog["videos"],lt.size(catalog['videos']),'merge',cmpVideosbyViews()))[1])
     ID=categoriaporID(categoria,catalog)
     final=lt.newList()
     n=1
@@ -126,12 +129,11 @@ def listaporcategoria(categoria,catalog):
         n+=1
     return final
 
-def mayortrending(categoria,catalog):
-    ltporcategorias=listaporcategoria(categoria,catalog)
+def mayortrending(lista):
     dic={}
     n=1
-    while n<=lt.size(ltporcategorias):
-        video=lt.getElement(ltporcategorias,n)
+    while n<=lt.size(lista):
+        video=lt.getElement(lista,n)
         if video['title'] in dic.keys():
             l=dic[video['title']]
             x=lt.isPresent(l,video['trending_date'])
@@ -191,6 +193,110 @@ def imprimir(titulo,catalog):
     print(l)
     print(len(l))
     print(len(p))
+
+def Req2(pais,catalog):
+    listapais = listaporpais(pais,catalog)
+    print(1)
+    tupla_titulo_dias = mayortrending(listapais)
+    print(2)
+    video = buscarportitulo_simplificado(tupla_titulo_dias[0],listapais)
+    print(3)
+    video["dias"] = tupla_titulo_dias[1]
+    return video
+    
+
+def listaporpais(pais,catalog):
+    videos = catalog["videos"]
+    n = 1
+    listapais = lt.newList()
+    while n<=lt.size(videos):
+        x = lt.getElement(videos,n)
+        pais_x = x["country"]
+
+        if pais_x == pais:
+            lt.addLast(listapais,x)
+        
+        n += 1
+
+    return listapais
+
+def mayorTrending(lista):
+    dic={}
+    n=1
+    
+    while n<=lt.size(lista):
+        video=lt.getElement(lista,n)
+        titulo = video['title']
+        fecha = video["trending_date"]
+
+        if  titulo in dic.keys():
+            lista_fechas = dic[titulo]
+            x = lt.isPresent(lista_fechas,fecha)
+            if x == 0:
+                lt.addLast(lista_fechas,fecha)
+        else:
+            lista_fechas = lt.newList()
+            lt.addLast(lista_fechas,fecha)
+            dic[titulo] = lista_fechas
+        
+    mayor=0
+    title=''
+    for titulo in dic:
+        lista=dic[titulo]
+        num=lt.size(lista)
+        if num>mayor:
+            mayor=num
+            title=titulo
+
+    return (title,mayor)
+
+
+def buscarportitulo_simplificado(titulo,listapais):
+    n=1
+    centinela=True
+    while n<=lt.size(listapais) and centinela:
+        video=lt.getElement(listapais,n)
+        if video['title']==titulo:
+            centinela=False
+        n+=1
+    return video 
+
+def Req4(tag,numero_vid,pais,catalog):
+    listapais =listaporpais(pais,catalog)
+    listapaistag = listaportag(tag,listapais)
+    listapaistag = sortVideos(listapaistag,lt.size(listapaistag),"merge",cmpVideosbyLikes)[1]
+    return listapaistag
+
+
+
+def listaportag(tag,lista):
+    videos = lista
+    n = 1
+    listatag = lt.newList()
+    while n<=lt.size(videos):
+        x = lt.getElement(videos,n)
+        tags_x = x["tags"]
+
+        if tag in tags_x:
+            lt.addLast(listatag,x)
+        
+        n += 1
+    
+    return listatag
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
 
 # Funciones para creacion de datos
 
