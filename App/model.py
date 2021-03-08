@@ -41,10 +41,10 @@ los mismos.
 """
 
 # Construccion de modelos
-def initCatalog(dataStructure):
+def initCatalog():
     return {
-            'videos': lt.newList(datastructure=dataStructure, cmpfunction=cmpVideosbyViews),
-            'categories': lt.newList(datastructure=dataStructure)
+            'videos': lt.newList(datastructure='ARRAY_LIST', cmpfunction=cmpVideosbyViews),
+            'categories': lt.newList(datastructure='ARRAY_LIST')
             }
 
 def addVideo(catalog,video):

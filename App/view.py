@@ -57,17 +57,8 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar: ')
     if int(inputs[0]) == 1:
-
-        print('\nIngrese el número del tipo de lista en el que desee cargar el catálogo: \n1 - LINKED_LIST \n2 - ARRAY_LIST')
-        ed=int(input(''))
-
-        if ed==1:
-            estructuraDeDatos = "LINKED_LIST"
-        elif ed==2:
-            estructuraDeDatos = "ARRAY_LIST"
-
         print("\nCargando información de los archivos...")
-        catalog = controller.initCatalog(estructuraDeDatos)
+        catalog = controller.initCatalog()
         controller.loadData(catalog)
 
         print("\nSe cargaron " + str(lt.size(catalog['videos'])) + " datos de video y " + str(lt.size(catalog['categories'])) + " de categorías.")
@@ -93,27 +84,7 @@ while True:
             n=n+1
         print('\n')
 
-
     elif int(inputs[0]) == 2:
-        numeroDeElementos = int(input("\nIngrese el número de videos que desee: \n"))
-        print('\nIngrese el número del algoritmo con el cual desea ordenar el catálogo por vistas: \n1 - shell \n2 - insertion \n3 - selection \n4 - merge \n5- quick')
-        alg=int(input(''))
-        if alg==1:
-            algoritmo='shell'
-        elif alg==2:
-            algoritmo='insertion'
-        elif alg==3:
-            algoritmo='selection'
-        elif alg==4:
-            algoritmo='merge'
-        elif alg==5:
-            algoritmo='quick'
-        
-        print('Cargando...\n')
-        print((controller.mejoresVideosPorViews(catalog,numeroDeElementos,algoritmo))[0])
-        print('\n')
-
-    elif int(inputs[0]) == 6:
         numero=int(input('Ingrese el número de videos: '))
         pais=input('Ingrese el país: ')
         categoria=input('Ingrese la categoría: ')
@@ -132,18 +103,8 @@ while True:
             print('Puesto ' + str(n) + '\ntrending_date: ' + trending_date + '; title: ' + title +'; channel_title: '+channel_title + '; publish_time: ' +publish_time +'; views: '+views+'; likes: '+likes+ '; dislikes: ' + dislikes + '\n')
             n+=1
 
+
     elif int(inputs[0]) == 3:
-        print("Requerimiento 3")
-        categoria=input('Ingrese la categoría: ')
-        final=controller.Requerimiento3(categoria,catalog)
-        title=final[0]
-        channel_title=final[1]
-        category_id=final[2]
-        dias=final[3]
-        print('\ntitle: '+title+'; channel_title: '+channel_title+'; category_id: '+category_id+'; días: '+str(dias) +'\n')
-
-
-    elif int(inputs[0]) == 4:
         print("Requerimiento 2")
         pais = input("Ingrese el país: ")
 
@@ -155,6 +116,15 @@ while True:
 
 
         print('\ntitle: '+title+'; channel_title: '+channel_title+'; country: '+country+'; numero de dias: '+str(numero_de_dias) +'\n')
+    elif int(inputs[0]) == 4:
+        print("Requerimiento 3")
+        categoria=input('Ingrese la categoría: ')
+        final=controller.Requerimiento3(categoria,catalog)
+        title=final[0]
+        channel_title=final[1]
+        category_id=final[2]
+        dias=final[3]
+        print('\ntitle: '+title+'; channel_title: '+channel_title+'; category_id: '+category_id+'; días: '+str(dias) +'\n')
 
 
     elif int(inputs[0]) == 5:
