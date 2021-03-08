@@ -115,25 +115,7 @@ def mayortrending(lista):
         if num>mayor:
             mayor=num
             title=titulo
-
     return title, mayor
-    
-def buscarportitulo(categoria,catalog):
-    titulo=mayortrending(categoria,catalog)[0]
-    dias=mayortrending(categoria,catalog)[1]
-    ltporcategorias=listaporcategoria(categoria,catalog)
-    channel_title=''
-    category_id=''
-    n=1
-    centinela=True
-    while n<=lt.size(ltporcategorias) and centinela:
-        video=lt.getElement(ltporcategorias,n)
-        if video['title']==titulo:
-            channel_title=video['channel_title']
-            category_id=video['category_id']
-            centinela=False
-        n+=1
-    return titulo,channel_title,category_id,dias
     
 def imprimir(titulo,catalog):
     videos=catalog['videos']
@@ -178,15 +160,24 @@ def listaporpais(pais,catalog):
 
     return listapais
 
-def buscarportitulo_simplificado(titulo,listapais):
+def buscarportitulo_simplificado(titulo,lista):
     n=1
     centinela=True
-    while n<=lt.size(listapais) and centinela:
-        video=lt.getElement(listapais,n)
+    while n<=lt.size(lista) and centinela:
+        video=lt.getElement(lista,n)
         if video['title']==titulo:
             centinela=False
         n+=1
     return video 
+
+def Req3(categoria,catalog):
+    lista = listaporcategoria(categoria,catalog)
+    tupla = mayortrending(lista)
+    video = buscarportitulo_simplificado(tupla[0],lista)
+    video["dias"] = tupla[1]
+    return video["title"],video["channel_title"],video["category_id"],video["dias"]
+
+
 
 def Req4(tag,numero_vid,pais,catalog):
     listapais =listaporpais(pais,catalog)

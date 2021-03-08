@@ -55,7 +55,7 @@ def Requerimiento2(pais,catalog):
 
 
 def Requerimiento3(categoria,catalog):
-    return model.buscarportitulo(categoria,catalog)
+    return model.Req3(categoria,catalog)
 
 def Requerimiento4(tag,numero_vid,pais,catalog):
     return model.Req4(tag,numero_vid,pais,catalog)

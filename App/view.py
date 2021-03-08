@@ -133,6 +133,7 @@ while True:
             n+=1
 
     elif int(inputs[0]) == 3:
+        print("Requerimiento 3")
         categoria=input('Ingrese la categoría: ')
         final=controller.Requerimiento3(categoria,catalog)
         title=final[0]
