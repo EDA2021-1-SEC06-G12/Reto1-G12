@@ -55,16 +55,19 @@ def addCategory(catalog,category):
 
 # Funciones de consulta
 def Req1(pais,categoria,catalog,num):
-    lista=((sortVideos(catalog["videos"],lt.size(catalog['videos']),'merge',cmpVideosbyViews()))[1])
-    ID=categoriaporID(categoria,catalog)
+    lista=catalog["videos"]
     final=lt.newList()
     n=1
-    while n<lt.size(lista) and lt.size(final)<num:
+    ID = categoriaporID(categoria,catalog)
+
+    while n<=lt.size(lista):
         v=lt.getElement(lista,n)
         if v['country'].lower()==pais.lower() and v['category_id']==ID:
             lt.addLast(final,v)
         n+=1
-    return final
+
+    final = (sortVideos(final,lt.size(final),'merge',cmpVideosbyViews)[1])
+    return lt.subList(final,1,num)
 
 def categoriaporID(name,catalog):
     categorias=catalog['categories']
