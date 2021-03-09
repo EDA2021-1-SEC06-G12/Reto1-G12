@@ -81,10 +81,12 @@ while True:
         while n <= lt.size(catalog['categories']):
             x=lt.getElement(catalog['categories'],n)
             print(str(x['id']) + " - " + str(x['name']))
-            n=n+1
+            n+=1
         print('\n')
 
+
     elif int(inputs[0]) == 2:
+        print('\n')
         numero=int(input('Ingrese el número de videos: '))
         pais=input('Ingrese el país: ')
         categoria=input('Ingrese la categoría: ')
@@ -105,19 +107,16 @@ while True:
 
 
     elif int(inputs[0]) == 3:
-        print("Requerimiento 2")
-        pais = input("Ingrese el país: ")
-
+        pais = input('Ingrese el país: ')
         v = controller.Requerimiento2(pais,catalog)
         channel_title= v['channel_title']
         title= v['title']
         country = v["country"]
         numero_de_dias = v["dias"]
-
-
         print('\ntitle: '+title+'; channel_title: '+channel_title+'; country: '+country+'; numero de dias: '+str(numero_de_dias) +'\n')
+   
+
     elif int(inputs[0]) == 4:
-        print("Requerimiento 3")
         categoria=input('Ingrese la categoría: ')
         final=controller.Requerimiento3(categoria,catalog)
         title=final[0]
@@ -128,18 +127,13 @@ while True:
 
 
     elif int(inputs[0]) == 5:
-        print("Requerimiento 4")
-
         tag = input("Ingrese el tag: ")
         numero_vid = int(input("Ingrese el número de videos: "))
         pais = input("Ingrese el país: ")
-
         lista_videos = controller.Requerimiento4(tag,numero_vid,pais, catalog)
-
         lista_videos = lt.subList(lista_videos,1,numero_vid)
 
-        n = 1
-        
+        n=1
         while n<=lt.size(lista_videos):
             v = lt.getElement(lista_videos,n)
             channel_title= v['channel_title']
@@ -149,14 +143,18 @@ while True:
             likes = str(v["likes"])
             dislikes = str(v["dislikes"])
             tags = v["tags"]
-
-
             print('\ntitle: '+title+'; channel_title: '+ channel_title +'; publish_time: '+ publish_time +'; views: '+views +'; likes: '+likes+'; dislikes: '+dislikes+'; tags: '+tags+'\n')
-
-            n +=1
-
+            n+=1
 
 
+    elif int(inputs[0])==9:
+        categoria=input('Ingrese la categoría: ')
+        vid=controller.Requerimiento3(categoria,catalog)
+        title=vid[0]
+        channel_title=vid[1]
+        category_id=vid[2]
+        dias=vid[3]
+        print('\ntitle: ' + title +'; channel_title: '+channel_title+'; category_id: '+str(category_id)+'; días: '+str(dias)+'\n')
 
     else:
         sys.exit(0)

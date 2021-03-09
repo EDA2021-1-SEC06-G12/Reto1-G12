@@ -34,7 +34,7 @@ def initCatalog():
     return model.initCatalog()
 
 def loadData(catalog):
-    videosfile = cf.data_dir + 'videos-small.csv'
+    videosfile = cf.data_dir + 'videos-large.csv'
     input_file = csv.DictReader(open(videosfile, encoding='utf-8'))
     for video in input_file:
         model.addVideo(catalog, video)
@@ -43,8 +43,8 @@ def loadData(catalog):
     for category in i_file:
         model.addCategory(catalog,category)
 
-def mejoresVideosPorViews(catalog, size, algorithm):
-    return model.sortVideos(catalog,size,algorithm, cmpVideosbyViews)
+def mejoresVideosPorViews(catalog, size):
+    return model.sortVideos(catalog,size,cmpVideosbyViews)
 
 def Requerimiento1(pais,categoria,catalog,num):
     return model.Req1(pais,categoria,catalog,num)
@@ -52,7 +52,6 @@ def Requerimiento1(pais,categoria,catalog,num):
 
 def Requerimiento2(pais,catalog):
     return model.Req2(pais,catalog)
-
 
 def Requerimiento3(categoria,catalog):
     return model.Req3(categoria,catalog)

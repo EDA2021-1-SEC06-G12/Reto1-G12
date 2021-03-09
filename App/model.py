@@ -66,7 +66,7 @@ def Req1(pais,categoria,catalog,num):
             lt.addLast(final,v)
         n+=1
 
-    final = (sortVideos(final,lt.size(final),'merge',cmpVideosbyViews)[1])
+    final = (sortVideos(final,lt.size(final),cmpVideosbyViews)[1])
     return lt.subList(final,1,num)
 
 def categoriaporID(name,catalog):
@@ -170,19 +170,48 @@ def buscarportitulo_simplificado(titulo,lista):
         n+=1
     return video 
 
+
+def ordenadaportitleydate(categoria,catalog):
+    lista=listaporcategoria(categoria,catalog)
+    x=sortVideos(lista,lt.size(lista),cmpVideosbyDate)[1]
+    y=sortVideos(x,lt.size(lista),cmpVideosbyTitle)[1]
+    return y
+
+
 def Req3(categoria,catalog):
-    lista = listaporcategoria(categoria,catalog)
-    tupla = mayortrending(lista)
-    video = buscarportitulo_simplificado(tupla[0],lista)
-    video["dias"] = tupla[1]
-    return video["title"],video["channel_title"],video["category_id"],video["dias"]
+    lista=ordenadaportitleydate(categoria,catalog)
+    title=''
+    mayortotal=0
+    mayorparcial=1
+    n=2
+    while n<=lt.size(lista):
+        vid=lt.getElement(lista,n)
+        ant=lt.getElement(lista,n-1)
+        if vid['title']==ant['title']:
+            if vid['trending_date']!=ant['trending_date']:
+                mayorparcial+=1
+        else:
+            if mayorparcial>mayortotal:
+                mayortotal=mayorparcial
+                title=ant['title']
+                channel_title=ant['channel_title']
+                category_id=ant['category_id']
 
+            mayorparcial=0
+        n+=1
 
+    if mayorparcial>mayortotal:
+        mayortotal=mayorparcial
+        title=ant['title']
+        channel_title=ant['channel_title']
+        category_id=ant['category_id']
+
+    return title,channel_title,category_id,mayortotal
 
 def Req4(tag,numero_vid,pais,catalog):
     listapais =listaporpais(pais,catalog)
     listapaistag = listaportag(tag,listapais)
-    listapaistag = sortVideos(listapaistag,lt.size(listapaistag),"merge",cmpVideosbyLikes)[1]
+    listapaistag = sortVideos(listapaistag,lt.size(listapaistag),cmpVideosbyLikes)[1]
     return listapaistag
 
 def listaportag(tag,lista):
@@ -211,38 +240,22 @@ def cmpVideosbyViews(video1,video2):
 def cmpVideosbyLikes(video1,video2):
     return(int(video1["likes"])>=int(video2["likes"]))
 
+def cmpVideosbyTitle(video1,video2):
+    return (video1['title'])>=(video2['title'])
+
+def cmpVideosbyDate(video1,video2):
+    return (video1['trending_date'])>=(video2['trending_date'])
+
 # Funciones de ordenamiento
 
-def sortVideos(lista, size, algorithm,cmpfunction):
+def sortVideos(lista, size,cmpfunction):
     videos=lista
     if size <= lt.size(videos):
         sub_list = lt.subList(videos, 1, size)
         sub_list = sub_list.copy()
-
-        if algorithm == "shell":
-            start_time = time.process_time()
-            shes.sort(sub_list, cmpfunction)
-            stop_time = time.process_time()
-
-        elif algorithm == "selection":
-            start_time = time.process_time()
-            sels.sort(sub_list, cmpfunction)
-            stop_time = time.process_time()
-
-        elif algorithm == "insertion":
-            start_time = time.process_time()
-            inss.sort(sub_list, cmpfunction)
-            stop_time = time.process_time()
-            
-        elif algorithm == 'merge':
-            start_time=time.process_time()
-            mrge.sort(sub_list, cmpfunction)
-            stop_time=time.process_time()
-        
-        elif algorithm == 'quick':
-            start_time=time.process_time()
-            quck.sort(sub_list, cmpfunction)
-            stop_time=time.process_time()
+        start_time=time.process_time()
+        mrge.sort(sub_list, cmpfunction)
+        stop_time=time.process_time()
         elapsed_time_mseg = round((stop_time - start_time)*1000,2)
         return elapsed_time_mseg, sub_list
     else:
