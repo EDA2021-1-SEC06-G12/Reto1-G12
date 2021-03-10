@@ -80,17 +80,14 @@ def lporcyp(ID,pais,lista):
 
 
 
-def lporcategoria(categoria,lista,catalog):
-    categorias=catalog['categories']
-    ID=categoriaporID(categoria, catalog)
+def lporcategoria(ID,lista):
     final=lt.newList()
-    i=1
-    while i<=lt.size(lista):
-        v=lt.getElement(lista,i)
-        if v['category_id']==ide:
+    i=it.newIterator(lista)
+    while it.hasNext(i):
+        v=it.next(i)
+        if v['category_id']==ID:
             lt.addFirst(final,v)
-        i+=1
-    if lt.size(final)==0:
+    if lt.isEmpty(final)==True:
         return None
     else:
         return final
@@ -98,13 +95,12 @@ def lporcategoria(categoria,lista,catalog):
 
 def lporpais(pais,lista):
     final=lt.newList()
-    n=1
-    while n<=lt.size(lista):
-        v=lt.getElement(lista,n)
+    i=it.newIterator(lista)
+    while it.hasNext(i):
+        v=it.next(i)
         if v['country'].lower()==pais.lower():
             lt.addFirst(final,v)
-        n+=1
-    if lt.size(final)==0:
+    if lt.isEmpty(final)==True:
         return None
     else:
         return final
@@ -137,15 +133,17 @@ def lporcategoriaypais(categoria,pais,lista):
 
 
 
-def listaportag(tag,lista):
-    n = 1
-    listatag = lt.newList()
-    while n<=lt.size(lista):
-        x = lt.getElement(lista,n)
-        if tag in x['tags']:
-            lt.addLast(listatag,x)
-        n+=1
-    return listatag
+def lportyp(tag,pais,lista):
+    i=it.newIterator(lista)
+    final=lt.newList()
+    while it.hasNext(i):
+        x=it.next(i)
+        if tag in x['tags'] and pais.lower()==x['country']:
+            lt.addLast(final,x)
+    if lt.isEmpty(final)==True:
+        return None
+    else:
+        return final
 
 
 def maxdias(lista):
@@ -338,6 +336,21 @@ def Req3(categoria,catalog):
 
     return title,channel_title,category_id,mayortotal
 
+def listaportag(tag,lista):
+    videos = lista
+    n = 1
+    listatag = lt.newList()
+    while n<=lt.size(videos):
+        x = lt.getElement(videos,n)
+        tags_x = x["tags"]
+
+        if tag in tags_x:
+            lt.addLast(listatag,x)
+
+        n += 1
+
+    return listatag
+
 def Req4(tag,numero_vid,pais,catalog):
     listapais =listaporpais(pais,catalog)
     listapaistag = listaportag(tag,listapais)
@@ -361,7 +374,7 @@ def cmpVideosbyTitle(video1,video2):
     return (video1['title'])>(video2['title'])
 
 def cmpVideosbyTitleandDate(video1,video2):
-    if (video1['title'])>(video2['title']):
+    if (video1['video_id'])>(video2['video_id']):
         return True
     elif video1['title']==video2['title']:
         return video1['trending_date']>video2['trending_date']

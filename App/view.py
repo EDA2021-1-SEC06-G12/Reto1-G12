@@ -98,29 +98,19 @@ while True:
         dias=final[3]
         print('\ntitle: '+title+'; channel_title: '+channel_title+'; category_id: '+category_id+'; días: '+str(dias) +'\n')
 
+    elif int(inputs[0])==5:
+        tag=input('Ingrese el tag: ')
+        pais=input('Ingrese el país: ')
+        num=int(input('Ingrese el número: '))
+        x=controller.R4(tag,pais,num,catalog)
+        print('\n'+x+'\n')
 
-    elif int(inputs[0]) == 5:
-        tag = input("Ingrese el tag: ")
-        numero_vid = int(input("Ingrese el número de videos: "))
-        pais = input("Ingrese el país: ")
-        lista_videos = controller.Requerimiento4(tag,numero_vid,pais, catalog)
-        lista_videos = lt.subList(lista_videos,1,numero_vid)
-
-        n=1
-        while n<=lt.size(lista_videos):
-            v = lt.getElement(lista_videos,n)
-            channel_title= v['channel_title']
-            title= v['title']
-            publish_time = str(v["publish_time"])
-            views = str(v["views"])
-            likes = str(v["likes"])
-            dislikes = str(v["dislikes"])
-            tags = v["tags"]
-            print('\ntitle: '+title+'; channel_title: '+ channel_title +'; publish_time: '+ publish_time +'; views: '+views +'; likes: '+likes+'; dislikes: '+dislikes+'; tags: '+tags+'\n')
-            n+=1
+    else:
+        sys.exit(0)
+sys.exit(0)
 
 
-    elif int(inputs[0])==9:
+"""   elif int(inputs[0])==9:
         categoria=input('Ingrese la categoría: ')
         vid=controller.Requerimiento3(categoria,catalog)
         title=vid[0]
@@ -136,14 +126,12 @@ while True:
         x=controller.Requerimiento1(categoria,pais,num,catalog)
         print('\n'+x+'\n')
 
-    elif int(inputs[0])==88:
+    elif int(inputs[0])==8:
         pais=input('Ingrese el país: ')
-        x=controller.Requerimiento2(pais,catalog)
+        x=controller.R2(pais,catalog)
         print(x)
 
-
-
-
-    else:
-        sys.exit(0)
-sys.exit(0)
+    elif int(inputs[0])==9:
+        categoria=input('Ingrese la categoría: ')
+        x=controller.R3(categoria,catalog)
+        print(x)"""

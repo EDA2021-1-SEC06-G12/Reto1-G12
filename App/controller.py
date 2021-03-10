@@ -72,6 +72,46 @@ def R1(categoria,pais,num,catalog):
                 return c
 
 
+def R2(pais,catalog):
+    l1=model.lporpais(pais,catalog['videos'])
+    if l1==None:
+        return 'No hay información para esta categoría.'
+    else:
+        orde=model.sortVideos(l1,lt.size(l1),model.cmpVideosbyTitleandDate)[1]
+        tupla=model.maxdias(orde)
+        return tupla[0]
+
+def R3(categoria,catalog):
+    ID=model.categoriaporID(categoria,catalog)
+    if ID==None:
+        return 'Categoría no válida'
+    else:
+        l1=model.lporcategoria(ID,catalog['videos'])
+        l2=model.sortVideos(l1,lt.size(l1),model.cmpVideosbyTitleandDate)
+        tupla=model.maxdias(l2)
+        return tupla[0]
+
+def R4(tag,pais,num,catalog):
+    l1=model.lportyp(tag,pais,catalog['videos'])
+    if l1==None:
+        return 'No hay información para el país y/o tag ingresados.'
+    else:
+        orde=model.sortVideos(l1,lt.size(l1),model.cmpVideosbyLikes)[1]
+        final=lt.subList(orde,1,num)
+        i=it.newIterator(final)
+        c=''
+        n=0
+        while it.hasNext(i):
+            n+=1
+            v=it.next(i)
+            c=c+'\nPuesto '+str(n)+'\ntitle: '+v['title']+'; channel_title: '+v['channel_title']+'; publish_time: '+v['publish_time']+'; views: '+v['views']+'; likes: '+v['likes']+'; dislikes: '+v['dislikes']+'; tags: '+v['tags']+'\n'
+        return c
+
+
+
+
+
+
 
 
 
