@@ -25,6 +25,7 @@ import sys
 import controller
 import model
 from DISClib.ADT import list as lt
+from DISClib.DataStructures import listiterator as it
 assert cf
 
 default_time = 1000
@@ -60,28 +61,14 @@ while True:
         print("\nCargando información de los archivos...")
         catalog = controller.initCatalog()
         controller.loadData(catalog)
-
         print("\nSe cargaron " + str(lt.size(catalog['videos'])) + " datos de video y " + str(lt.size(catalog['categories'])) + " de categorías.")
-
-        video_uno=lt.getElement(catalog['videos'],1)
-        titulo=str(video_uno['title'])
-        canal=str(video_uno['channel_title'])
-        trendingdate=str(video_uno['trending_date'])
-        pais=str(video_uno['country'])
-        views=str(video_uno['views'])
-        likes=str(video_uno['likes'])
-        dislikes=str(video_uno['dislikes'])
-        ID=str(video_uno['category_id'])
-
-        print("\nInformación del primer video cargado \n" + "Título: " + titulo + "\nTítulo del canal: " + canal + "\nTrending date: " + trendingdate + "\nPaís: " + pais + "\nVistas: " + views + "\nLikes: " + likes + "\nDislikes: " + dislikes+'\n')
-        print(ID)
+        v=lt.firstElement(catalog['videos'])
+        print("\nInformación del primer video cargado \n" +"Título: "+v['title']+"\nTítulo del canal: "+v['channel_title']+"\nTrending date: "+v['trending_date']+"\nPaís: "+v['country']+"\nVistas: "+v['views']+ "\nLikes: "+v['likes']+"\nDislikes: "+v['dislikes']+'\n')
         print("\nLista de categorías " + "\nID - Nombre")
-        n=1
-
-        while n <= lt.size(catalog['categories']):
-            x=lt.getElement(catalog['categories'],n)
+        i=it.newIterator(catalog['categories'])
+        while it.hasNext(i):
+            x=it.next(i)
             print(str(x['id']) + " - " + str(x['name']))
-            n+=1
         print('\n')
 
     elif int(inputs[0])==2:
