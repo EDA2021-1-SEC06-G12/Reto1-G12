@@ -115,7 +115,7 @@ while True:
     elif int(inputs[0])==9:
         categoria=input('Ingrese la categoría: ')
         x=controller.R3(categoria,catalog)
-        print(x)
+        print('\n'+x+'\n')
 
     else:
         sys.exit(0)

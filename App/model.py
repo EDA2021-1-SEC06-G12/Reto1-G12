@@ -142,7 +142,51 @@ def lportyp(tag,pais,lista):
     else:
         return final
 
-def maxtrending(lista):
+
+
+def maxdias(parametro,lista):
+    title=''
+    mayortotal=0
+    mayorparcial=1
+    n=2
+    while n<=lt.size(lista):
+        vid=lt.getElement(lista,n)
+        ant=lt.getElement(lista,n-1)
+        l=lt.newList()
+        lt.addLast(l,ant['trending_date'])
+        if vid[parametro]==ant[parametro]:
+            if lt.isPresent(l,vid['trending_date'])==0:
+                lt.addLast(l,vid['trending_date'])
+                mayorparcial+=1
+        else:
+            l=lt.newList()
+            lt.addLast(l,vid['trending_date'])
+            if mayorparcial>mayortotal:
+                mayortotal=mayorparcial
+                title=ant['title']
+                channel_title=ant['channel_title']
+                category_id=ant['category_id']
+                country=ant['country']
+
+            mayorparcial=1
+        n+=1
+
+    if mayorparcial>mayortotal:
+        mayortotal=mayorparcial
+        title=ant['title']
+        channel_title=ant['channel_title']
+        category_id=ant['category_id']
+        country=ant['country']
+
+    return title,channel_title,category_id,country,mayortotal
+
+
+
+
+
+
+
+def maxtrending(parametro,lista):
     parcial=1
     total=1
     title=''
@@ -193,35 +237,10 @@ def maxtrending(lista):
 
 
 
-def maxdias(lista):
-    title=''
-    mayortotal=0
-    mayorparcial=1
-    n=2
-    while n<=lt.size(lista):
-        vid=lt.getElement(lista,n)
-        ant=lt.getElement(lista,n-1)
-        if vid['title']==ant['title']:
-            mayorparcial+=1
-        else:
-            if mayorparcial>mayortotal:
-                mayortotal=mayorparcial
-                title=ant['title']
-                channel_title=ant['channel_title']
-                category_id=ant['category_id']
-                country=ant['country']
 
-            mayorparcial=0
-        n+=1
 
-    if mayorparcial>mayortotal:
-        mayortotal=mayorparcial
-        title=ant['title']
-        channel_title=ant['channel_title']
-        category_id=ant['category_id']
-        country=ant['country']
 
-    return title,channel_title,category_id,country,mayortotal
+
 
 
 
@@ -351,8 +370,12 @@ def cmpVideosbyViews(video1,video2):
 def cmpVideosbyLikes(video1,video2):
     return(int(video1["likes"])>=int(video2["likes"]))
 
-def cmpVideosbyTitle(video1,video2):
-    return (video1['title'])>(video2['title'])
+def cmpVideosbyTitleandDate(video1,video2):
+    if (video1['title'])>(video2['title']):
+        return True
+    elif video1['title']==video2['title']:
+        return video1['trending_date']>video2['trending_date']
+
 
 def cmpVideosbyIdandDate(video1,video2):
     if (video1['video_id'])>(video2['video_id']):

@@ -55,6 +55,7 @@ def loadData(catalog):
 def mejoresVideosPorViews(catalog, size):
     return model.sortVideos(catalog,size,cmpVideosbyViews)
 
+
 def R1(categoria,pais,num,catalog):
     ID=model.categoriaporID(categoria,catalog)
     if ID==None:
@@ -82,14 +83,10 @@ def R1(categoria,pais,num,catalog):
 def R2(pais,catalog):
     l1 = model.lporpais(pais,catalog['videos'])
     print(lt.size(l1))
-    l1 = model.sortVideos(l1,lt.size(l1),model.cmpVideosbyId)[1]
-    print(lt.subList(l1,1,3))
-    print("")
-    print(lt.subList(l1,lt.size(l1)-3,2))
-    tupla=model.maxdias(l1)
+    l1 = model.sortVideos(l1,lt.size(l1),model.cmpVideosbyIdandDate)[1]
+    tupla=model.maxdias('video_id',l1)
 
     return tupla
-
 
   
 def R3(categoria,catalog):
@@ -97,15 +94,11 @@ def R3(categoria,catalog):
     if ID==None:
         return 'Categoría no válida'
     else:
-        print(ID)
         l1=model.lporcategoria(ID,catalog['videos'])
-        print(lt.firstElement(l1))
-        l2=model.sortVideos(l1,lt.size(l1),model.cmpVideosbyTitle)[1]
-        print(lt.firstElement(l2))
-        tupla=model.maxdias(l2)
-        return tupla
+        l2=model.sortVideos(l1,lt.size(l1),model.cmpVideosbyTitleandDate)[1]
+        tupla=model.maxdias('title',l2)
+        return 'title: '+tupla[0]+'; channel_title: '+tupla[1]+'; category_id: '+tupla[2]+'; días: '+str(tupla[4])
     
-
 
 def R4(tag,pais,num,catalog):
     l1=model.lportyp(tag,pais,catalog['videos'])
