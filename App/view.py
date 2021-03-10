@@ -71,6 +71,7 @@ while True:
             print(str(x['id']) + " - " + str(x['name']))
         print('\n')
 
+
     elif int(inputs[0])==2:
         categoria=input('Ingrese la categoría: ')
         pais=input('Ingrese el país: ')
@@ -78,27 +79,19 @@ while True:
         v=controller.R1(categoria,pais,num,catalog)
         print('\n'+v+'\n')
 
-
-    elif int(inputs[0]) == 3:
-        pais = input('Ingrese el pais: ')
-        tupla = controller.R2(pais,catalog)
     
-        channel_title= tupla[1]
-        title= tupla[0]
-        country = tupla[3]
-        numero_de_dias = tupla[4]
-        print('\ntitle: '+title+'; channel_title: '+channel_title+'; country: '+country+'; numero de dias: '+str(numero_de_dias) +'\n')
-     
+    elif int(inputs[0])==3:
+        pais=input('Ingrese el país: ')
+        x=controller.R2(pais,catalog)
+        print('\n'+x+'\n')
    
 
-    elif int(inputs[0]) == 4:
+    elif int(inputs[0])==4:
         categoria=input('Ingrese la categoría: ')
-        final=controller.Requerimiento3(categoria,catalog)
-        title=final[0]
-        channel_title=final[1]
-        category_id=final[2]
-        dias=final[3]
-        print('\ntitle: '+title+'; channel_title: '+channel_title+'; category_id: '+category_id+'; días: '+str(dias) +'\n')
+        repetidas=int(input('¿Contar fechas en países distintos como una sola? (1: sí / 0: no): '))
+        x=controller.R3(categoria,repetidas,catalog)
+        print('\n'+x+'\n')
+
 
     elif int(inputs[0])==5:
         tag=input('Ingrese el tag: ')
@@ -107,42 +100,7 @@ while True:
         x=controller.R4(tag,pais,num,catalog)
         print('\n'+x+'\n')
 
-    elif int(inputs[0])==8:
-        pais=input('Ingrese el país: ')
-        x=controller.R2(pais,catalog)
-        print(x)
-
-    elif int(inputs[0])==9:
-        categoria=input('Ingrese la categoría: ')
-        x=controller.R3(categoria,catalog)
-        print('\n'+x+'\n')
 
     else:
         sys.exit(0)
 sys.exit(0)
-
-"""   elif int(inputs[0])==9:
-        categoria=input('Ingrese la categoría: ')
-        vid=controller.Requerimiento3(categoria,catalog)
-        title=vid[0]
-        channel_title=vid[1]
-        category_id=vid[2]
-        dias=vid[3]
-        print('\ntitle: ' + title +'; channel_title: '+channel_title+'; category_id: '+str(category_id)+'; días: '+str(dias)+'\n')
-
-    elif int(inputs[0])==7:
-        categoria=input('Ingrese la categoría: ')
-        pais=input('Ingrese el país: ')
-        num=int(input('Ingrese el número de videos: '))
-        x=controller.Requerimiento1(categoria,pais,num,catalog)
-        print('\n'+x+'\n')
-
-    elif int(inputs[0])==8:
-        pais=input('Ingrese el país: ')
-        x=controller.R2(pais,catalog)
-        print(x)
-
-    elif int(inputs[0])==9:
-        categoria=input('Ingrese la categoría: ')
-        x=controller.R3(categoria,catalog)
-        print(x)"""

@@ -82,21 +82,28 @@ def R1(categoria,pais,num,catalog):
 
 def R2(pais,catalog):
     l1 = model.lporpais(pais,catalog['videos'])
-    print(lt.size(l1))
-    l1 = model.sortVideos(l1,lt.size(l1),model.cmpVideosbyIdandDate)[1]
-    tupla=model.maxdias('video_id',l1)
+    if l1==None:
+        return 'No hay información para este país.'
+    else:
+        l2 = model.sortVideos(l1,lt.size(l1),model.cmpVideosbyTitleandDate)[1]
+        tupla=model.maxrep('title',l2)
+        return 'title: '+tupla[0]+'; channel_title: '+tupla[1]+'; country: '+tupla[3]+'; días: '+str(tupla[4])
 
-    return tupla
 
-  
-def R3(categoria,catalog):
+def R3(categoria,rep,catalog):
     ID=model.categoriaporID(categoria,catalog)
     if ID==None:
         return 'Categoría no válida'
     else:
         l1=model.lporcategoria(ID,catalog['videos'])
         l2=model.sortVideos(l1,lt.size(l1),model.cmpVideosbyTitleandDate)[1]
-        tupla=model.maxdias('title',l2)
+        if rep==1:
+            tupla=model.maxnorep('title',l2)
+        elif rep==0:
+            tupla=model.maxrep('title',l2)
+        else:
+            return 'La opción ingresada (diferente a 0 y 1) no es válida'
+
         return 'title: '+tupla[0]+'; channel_title: '+tupla[1]+'; category_id: '+tupla[2]+'; días: '+str(tupla[4])
     
 
@@ -106,6 +113,8 @@ def R4(tag,pais,num,catalog):
         return 'No hay información para el país y/o tag ingresados.'
     else:
         orde=model.sortVideos(l1,lt.size(l1),model.cmpVideosbyLikes)[1]
+        print(lt.firstElement(orde))
+        print(lt.lastElement(orde))
         final=lt.subList(orde,1,num)
         i=it.newIterator(final)
         c=''
@@ -115,93 +124,6 @@ def R4(tag,pais,num,catalog):
             v=it.next(i)
             c=c+'\nPuesto '+str(n)+'\ntitle: '+v['title']+'; channel_title: '+v['channel_title']+'; publish_time: '+v['publish_time']+'; views: '+v['views']+'; likes: '+v['likes']+'; dislikes: '+v['dislikes']+'; tags: '+v['tags']+'\n'
         return c
-
-
-
-
-
-
-
-
-
-
-def Requerimiento1(categoria,pais,num,catalog):
-    l1=model.lporpais(pais,catalog['videos'])
-    if l1==None:
-            return 'No hay información para este país.'
-    else:
-        l2=lporcategoria(categoria,l1,catalog)
-        if l2==None:
-            return 'No hay información para esta categoría.'
-        else:
-            l3=model.sortVideos(l2,lt.size(l2),model.cmpVideosbyViews)
-            if l3==None or num>lt.size(l3[1]):
-                return 'El número ingresado excede la cantidad de videos disponibles.'
-            else:
-                lfinal=lt.subList(l3[1],1,num)
-                i=1
-                c=''
-                while i<=num:
-                    vid=lt.getElement(lfinal,i)
-                    c=c+'\nPuesto '+str(i)+'\ntrending_date: '+str(vid['trending_date'])+'; title: '+vid['title']+'; channel_title: '+vid['channel_title']+'; publish_time: '+vid['publish_time']+'; views: '+vid['views']+'; likes: '+vid['likes']+ '; dislikes: '+vid['dislikes']+'\n'
-                    i+=1
-                return c
-
-
-#
- #  l1=model.lporcategoria(categoria,catalog['videos'],catalog)
-  #  if l1==None:
-   #     return 'No hay información para esta categoría.'
-    #else:
-     #   l2=model.lporpais(pais,l1)
-      #  if l2==None:
-       #     return 'No hay información para este país.'
-        #else:
-         #   l3=model.sortVideos(l2,lt.size(l2),model.cmpVideosbyViews)
-          #  if l3==None or num>lt.size(l3[1]):
-           #     return 'El número ingresado excede la cantidad de videos disponibles.'
-            #else:
-             #   lfinal=lt.subList(l3[1],1,num)
-              #  i=1
-               # c=''
-                #while i<=num:
-                 #   vid=lt.getElement(lfinal,i)
-                  #  c=c+'\nPuesto '+str(i)+'\ntrending_date: '+vid['trending_date']+'; title: '+vid['title']+'; channel_title: '+vid['channel_title']+'; publish_time: '+vid['publish_time']+'; views: '+vid['views']+'; likes: '+vid['likes']+ '; dislikes: '+vid['dislikes']+'\n'
-                   # i+=1
-                #return c
-
-
-def Requerimiento2(pais,catalog):
-    l1=model.lporpais(pais,catalog['videos'])
-    if l1==None:
-        return 'No hay información para esta categoría.'
-    else:
-        l2=model.sortVideos(l1,lt.size(l1),model.cmpVideosbyTitleandDate)[1]
-        tupla=model.maxdias(l2)
-        return str(tupla)
-
-def Requerimiento3(categoria,catalog):
-    l1=model.lporcategoria(categoria,catalog['videos'],catalog)
-    if l1==None:
-        return 'No hay información para esta categoría.'
-    else:
-        l2=model.sortVideos(l1,lt.size(l1),model.cmpVideosbyTitleandDate)[1]
-        tupla=model.maxdias(l2)
-        return str(tupla)
-        
-
-def Req1(pais,categoria,catalog,num):
-    return model.Req1(pais,categoria,catalog,num)
-
-
-def Requerimiento2(pais,catalog):
-    return model.Req2(pais,catalog)
-
-def Requerimiento3(categoria,catalog):
-    return model.Req3(categoria,catalog)
-
-def Requerimiento4(tag,numero_vid,pais,catalog):
-    return model.Req4(tag,numero_vid,pais,catalog)
 
 # Funciones para la carga de datos
 

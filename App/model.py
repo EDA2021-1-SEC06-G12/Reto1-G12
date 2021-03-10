@@ -144,7 +144,7 @@ def lportyp(tag,pais,lista):
 
 
 
-def maxdias(parametro,lista):
+def maxnorep(parametro,lista):
     title=''
     mayortotal=0
     mayorparcial=1
@@ -181,40 +181,16 @@ def maxdias(parametro,lista):
     return title,channel_title,category_id,country,mayortotal
 
 
-
-
-
-
-
-def maxtrending(parametro,lista):
-    parcial=1
-    total=1
+def maxrep(parametro,lista):
+    mayorparcial=1
+    mayortotal=1
     title=''
     i=2
     while i<=lt.size(lista):
-        v=lt.getElement(lista,i)['title']
-        ant=lt.getElement(lista,i-1)['title']
-        if v==ant:
-            parcial+=1
-        else:
-            if parcial>total:
-                total=parcial
-                title=v
-            parcial=1
-        i+=1
-    return title,total
-
-"""def maxdias(lista):
-    title=''
-    mayortotal=0
-    mayorparcial=1
-    n=2
-    while n<=lt.size(lista):
-        vid=lt.getElement(lista,n)
-        ant=lt.getElement(lista,n-1)
-        if vid['title']==ant['title']:
-            if vid['trending_date']!=ant['trending_date']:
-                mayorparcial+=1
+        v=lt.getElement(lista,i)
+        ant=lt.getElement(lista,i-1)
+        if v[parametro]==ant[parametro]:
+            mayorparcial+=1
         else:
             if mayorparcial>mayortotal:
                 mayortotal=mayorparcial
@@ -222,9 +198,8 @@ def maxtrending(parametro,lista):
                 channel_title=ant['channel_title']
                 category_id=ant['category_id']
                 country=ant['country']
-
-            mayorparcial=0
-        n+=1
+            mayorparcial=1
+        i+=1
 
     if mayorparcial>mayortotal:
         mayortotal=mayorparcial
@@ -233,127 +208,13 @@ def maxtrending(parametro,lista):
         category_id=ant['category_id']
         country=ant['country']
 
-    return title,channel_title,category_id,country,mayortotal"""
-
-
-
-
-
-
-
-
-
-
-
-def mayortrending(lista):
-    dic={}
-    n=1
-    while n<=lt.size(lista):
-        video=lt.getElement(lista,n)
-        if video['title'] in dic.keys():
-            l=dic[video['title']]
-            x=lt.isPresent(l,video['trending_date'])
-            if x==0:
-                lt.addLast(l,video['trending_date'])
-            n+=1
-        else:
-            l=lt.newList(datastructure='ARRAY_LIST')
-            lt.addLast(l,video['trending_date'])
-            dic[video['title']]=l
-            n+=1
-    
-    mayor=0
-    title=''
-    for titulo in dic:
-        lista=dic[titulo]
-        num=lt.size(lista)
-        if num>mayor:
-            mayor=num
-            title=titulo
-    return title, mayor
-    
-def imprimir(titulo,catalog):
-    videos=catalog['videos']
-    m=0
-    n=1
-    l=[]
-    p=[]
-    while n<=lt.size(videos):
-        x=lt.getElement(videos,n)
-        nombre=x['title']
-        if titulo in nombre:
-            m+=1
-            p.append(x['trending_date'])
-            if x['trending_date'] not in l:
-                l.append(x['trending_date'])
-        n+=1
-    print(m)
-    print(l)
-    print(len(l))
-    print(len(p))
-
-def Req2(pais,catalog):
-    listapais = listaporpais(pais,catalog)
-    tupla_titulo_dias = mayortrending(listapais)
-    video = buscarportitulo_simplificado(tupla_titulo_dias[0],listapais)
-    video["dias"] = tupla_titulo_dias[1]
-    return video
-  
-
-def buscarporId_simplificado(id,lista):
-    n=1
-    centinela=True
-    while n<=lt.size(lista) and centinela:
-        video=lt.getElement(lista,n)
-        if video['video_id']==id:
-            centinela=False
-        n+=1
-    return video 
-
-
-def ordenadaportitleydate(categoria,catalog):
-    lista=listaporcategoria(categoria,catalog)
-    x=sortVideos(lista,lt.size(lista),cmpVideosbyDate)[1]
-    y=sortVideos(x,lt.size(lista),cmpVideosbyTitle)[1]
-    return y
-
-
-def Req3(categoria,catalog):
-    lista=ordenadaportitleydate(categoria,catalog)
-    title=''
-    mayortotal=0
-    mayorparcial=1
-    n=2
-    while n<=lt.size(lista):
-        vid=lt.getElement(lista,n)
-        ant=lt.getElement(lista,n-1)
-        if vid['title']==ant['title']:
-            if vid['trending_date']!=ant['trending_date']:
-                mayorparcial+=1
-        else:
-            if mayorparcial>mayortotal:
-                mayortotal=mayorparcial
-                title=ant['title']
-                channel_title=ant['channel_title']
-                category_id=ant['category_id']
-
-            mayorparcial=0
-        n+=1
-
-    if mayorparcial>mayortotal:
-        mayortotal=mayorparcial
-        title=ant['title']
-        channel_title=ant['channel_title']
-        category_id=ant['category_id']
-
-    return title,channel_title,category_id,mayortotal
+    return title,channel_title,category_id,country,mayortotal
 
 
 # Funciones para creacion de datos
 
 
-        
-
+    
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 def cmpInit(video1,video2):
@@ -376,8 +237,11 @@ def cmpVideosbyTitleandDate(video1,video2):
     elif video1['title']==video2['title']:
         return video1['trending_date']>video2['trending_date']
 
+def cmpVideosbyTitle(video1,video2):
+    return (video1['title'])>=(video2['title'])
 
-def cmpVideosbyIdandDate(video1,video2):
+
+"""def cmpVideosbyIdandDate(video1,video2):
     if (video1['video_id'])>(video2['video_id']):
         return True
     elif video1['title']==video2['title']:
@@ -390,7 +254,7 @@ def cmpVideosbyId(video1,video2):
     return (video1['video_id'])>=(video2['video_id'])
 
 def cmpVideosbyCat(video1,video2):
-    return (int(video1['category_id']))>=(int(video2['category_id']))
+    return (int(video1['category_id']))>=(int(video2['category_id']))"""
 
 # Funciones de ordenamiento
 
