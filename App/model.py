@@ -59,7 +59,7 @@ def addCategory(catalog,category):
 def categoriaporID(name,catalog):
     categorias=catalog['categories']
     i=1
-    while i<=lt.size(categorias) and centinela:
+    while i<=lt.size(categorias):
         c=lt.getElement(categorias,i)
         if name.lower() in (c['name']).lower():
             return c['id']
@@ -179,45 +179,6 @@ def maxdias(lista):
 
 
 
-
-
-
-def Req1(pais,categoria,catalog,num):
-    lista=catalog["videos"]
-    final=lt.newList()
-    n=1
-    ID = categoriaporID(categoria,catalog)
-
-    while n<=lt.size(lista):
-        v=lt.getElement(lista,n)
-        if v['country'].lower()==pais.lower() and v['category_id']==ID:
-            lt.addLast(final,v)
-        n+=1
-
-    final = (sortVideos(final,lt.size(final),cmpVideosbyViews)[1])
-    return lt.subList(final,1,num)
-
-def categoriaporID(name,catalog):
-    categorias=catalog['categories']
-    n=1
-    while n<=lt.size(categorias):
-        c=lt.getElement(categorias,n)
-        if name.lower() in (c['name']).lower():
-            return c['id']
-        n+=1
-
-def listaporcategoria(categoria,catalog):
-    final=lt.newList()
-    ID=categoriaporID(categoria,catalog)
-    videos=catalog['videos']
-    n=1
-    while n<=lt.size(videos):
-        video=lt.getElement(videos,n)
-        if video['category_id']==ID:
-            lt.addLast(final,video)
-        n+=1
-    return final
-
 def mayortrending(lista):
     dic={}
     n=1
@@ -273,21 +234,6 @@ def Req2(pais,catalog):
     return video
     
 
-def listaporpais(pais,catalog):
-    videos = catalog["videos"]
-    n = 1
-    listapais = lt.newList()
-    while n<=lt.size(videos):
-        x = lt.getElement(videos,n)
-        pais_x = x["country"]
-
-        if pais_x == pais:
-            lt.addLast(listapais,x)
-        
-        n += 1
-
-    return listapais
-
 def buscarportitulo_simplificado(titulo,lista):
     n=1
     centinela=True
@@ -335,28 +281,6 @@ def Req3(categoria,catalog):
         category_id=ant['category_id']
 
     return title,channel_title,category_id,mayortotal
-
-def listaportag(tag,lista):
-    videos = lista
-    n = 1
-    listatag = lt.newList()
-    while n<=lt.size(videos):
-        x = lt.getElement(videos,n)
-        tags_x = x["tags"]
-
-        if tag in tags_x:
-            lt.addLast(listatag,x)
-
-        n += 1
-
-    return listatag
-
-def Req4(tag,numero_vid,pais,catalog):
-    listapais =listaporpais(pais,catalog)
-    listapaistag = listaportag(tag,listapais)
-    listapaistag = sortVideos(listapaistag,lt.size(listapaistag),cmpVideosbyLikes)[1]
-    return listapaistag
-
 
 
 # Funciones para creacion de datos
