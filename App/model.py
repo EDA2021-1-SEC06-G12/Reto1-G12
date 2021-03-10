@@ -44,7 +44,7 @@ los mismos.
 # Construccion de modelos
 def initCatalog():
     return {
-            'videos': lt.newList(datastructure='ARRAY_LIST', cmpfunction=cmpVideosbyViews),
+            'videos': lt.newList(datastructure='ARRAY_LIST', cmpfunction=cmpInit),
             'categories': lt.newList(datastructure='ARRAY_LIST')
             }
 
@@ -81,7 +81,7 @@ def lporcyp(ID,pais,lista):
 
 
 def lporcategoria(ID,lista):
-    final=lt.newList()
+    final=lt.newList(datastructure='ARRAY_LIST')
     i=it.newIterator(lista)
     while it.hasNext(i):
         v=it.next(i)
@@ -94,23 +94,20 @@ def lporcategoria(ID,lista):
 
 
 def lporpais(pais,lista):
-    final=lt.newList()
+    final=lt.newList(datastructure='ARRAY_LIST')
     i=it.newIterator(lista)
     while it.hasNext(i):
         v=it.next(i)
-        if v['country'].lower()==pais.lower():
-            lt.addFirst(final,v)
-    if lt.isEmpty(final)==True:
-        return None
-    else:
-        return final
+        if pais.lower() == v['country'].lower():
+            lt.addLast(final,v)
+    return final
 
 
 def lporcategoriaypais(categoria,pais,lista):
     categorias=catalog['categories']
     n=1
     ide=0
-    final=lt.newList()
+    final=lt.newList(datastructure='ARRAY_LIST')
     while n<=lt.size(categorias):
         c=lt.getElement(categorias,n)
         if categoria.lower() in c['name'].lower():
@@ -135,7 +132,7 @@ def lporcategoriaypais(categoria,pais,lista):
 
 def lportyp(tag,pais,lista):
     i=it.newIterator(lista)
-    final=lt.newList()
+    final=lt.newList(datastructure='ARRAY_LIST')
     while it.hasNext(i):
         x=it.next(i)
         if tag in x['tags'] and pais.lower()==x['country']:
@@ -194,6 +191,8 @@ def maxtrending(lista):
 
     return title,channel_title,category_id,country,mayortotal"""
 
+
+
 def maxdias(lista):
     title=''
     mayortotal=0
@@ -226,6 +225,7 @@ def maxdias(lista):
 
 
 
+
 def mayortrending(lista):
     dic={}
     n=1
@@ -238,7 +238,7 @@ def mayortrending(lista):
                 lt.addLast(l,video['trending_date'])
             n+=1
         else:
-            l=lt.newList()
+            l=lt.newList(datastructure='ARRAY_LIST')
             lt.addLast(l,video['trending_date'])
             dic[video['title']]=l
             n+=1
@@ -279,14 +279,14 @@ def Req2(pais,catalog):
     video = buscarportitulo_simplificado(tupla_titulo_dias[0],listapais)
     video["dias"] = tupla_titulo_dias[1]
     return video
-    
+  
 
-def buscarportitulo_simplificado(titulo,lista):
+def buscarporId_simplificado(id,lista):
     n=1
     centinela=True
     while n<=lt.size(lista) and centinela:
         video=lt.getElement(lista,n)
-        if video['title']==titulo:
+        if video['video_id']==id:
             centinela=False
         n+=1
     return video 
@@ -333,8 +333,18 @@ def Req3(categoria,catalog):
 # Funciones para creacion de datos
 
 
+        
+
 
 # Funciones utilizadas para comparar elementos dentro de una lista
+def cmpInit(video1,video2):
+    if int(video1["views"])==int(video2["views"]):
+        return 0
+    elif int(video1["views"])>int(video2["views"]):
+        return 1
+    else:
+        return -1
+    
 def cmpVideosbyViews(video1,video2):
     return(int(video1["views"])>=int(video2["views"]))
 
@@ -344,7 +354,7 @@ def cmpVideosbyLikes(video1,video2):
 def cmpVideosbyTitle(video1,video2):
     return (video1['title'])>(video2['title'])
 
-def cmpVideosbyTitleandDate(video1,video2):
+def cmpVideosbyIdandDate(video1,video2):
     if (video1['video_id'])>(video2['video_id']):
         return True
     elif video1['title']==video2['title']:
@@ -352,6 +362,12 @@ def cmpVideosbyTitleandDate(video1,video2):
 
 def cmpVideosbyDate(video1,video2):
     return (video1['trending_date'])>=(video2['trending_date'])
+
+def cmpVideosbyId(video1,video2):
+    return (video1['video_id'])>=(video2['video_id'])
+
+def cmpVideosbyCat(video1,video2):
+    return (int(video1['category_id']))>=(int(video2['category_id']))
 
 # Funciones de ordenamiento
 
@@ -366,5 +382,4 @@ def sortVideos(lista,size,cmpfunction):
         return elapsed_time_mseg, sub_list
     else:
         return None
-
 

@@ -25,6 +25,11 @@ import model
 import csv
 from DISClib.ADT import list as lt
 from DISClib.DataStructures import listiterator as it
+from datetime import datetime
+from DISClib.Algorithms.Sorting import shellsort as shes
+from DISClib.Algorithms.Sorting import mergesort as mrge
+from DISClib.Algorithms.Sorting import quicksort as quck
+from DISClib.Algorithms.Sorting import insertionsort as inss
 
 
 """
@@ -39,7 +44,9 @@ def loadData(catalog):
     videosfile = cf.data_dir + 'videos-large.csv'
     input_file = csv.DictReader(open(videosfile, encoding='utf-8'))
     for video in input_file:
+        video["trending_date"] = datetime.strptime(video["trending_date"],"%y.%d.%m").date()
         model.addVideo(catalog, video)
+    
     categoriesfile = cf.data_dir + "category-id.csv"
     i_file = csv.DictReader(open(categoriesfile, encoding='utf-8'), delimiter='\t')
     for category in i_file:
@@ -68,19 +75,23 @@ def R1(categoria,pais,num,catalog):
                 while it.hasNext(i):
                     n+=1
                     vid=it.next(i)
-                    c=c+'\nPuesto '+str(n)+'\ntrending_date: '+vid['trending_date']+'; title: '+vid['title']+'; channel_title: '+vid['channel_title']+'; publish_time: '+vid['publish_time']+'; views: '+vid['views']+'; likes: '+vid['likes']+ '; dislikes: '+vid['dislikes']+'\n'
+                    c=c+'\nPuesto '+str(n)+'\ntrending_date: '+str(vid['trending_date'])+'; title: '+vid['title']+'; channel_title: '+vid['channel_title']+'; publish_time: '+vid['publish_time']+'; views: '+vid['views']+'; likes: '+vid['likes']+ '; dislikes: '+vid['dislikes']+'\n'
                 return c
 
 
 def R2(pais,catalog):
-    l1=model.lporpais(pais,catalog['videos'])
-    if l1==None:
-        return 'No hay información para esta categoría.'
-    else:
-        orde=model.sortVideos(l1,lt.size(l1),model.cmpVideosbyTitle)[1]
-        tupla=model.maxdias(orde)
-        return tupla
+    l1 = model.lporpais(pais,catalog['videos'])
+    print(lt.size(l1))
+    l1 = model.sortVideos(l1,lt.size(l1),model.cmpVideosbyId)[1]
+    print(lt.subList(l1,1,3))
+    print("")
+    print(lt.subList(l1,lt.size(l1)-3,2))
+    tupla=model.maxdias(l1)
 
+    return tupla
+
+
+  
 def R3(categoria,catalog):
     ID=model.categoriaporID(categoria,catalog)
     if ID==None:
@@ -139,7 +150,7 @@ def Requerimiento1(categoria,pais,num,catalog):
                 c=''
                 while i<=num:
                     vid=lt.getElement(lfinal,i)
-                    c=c+'\nPuesto '+str(i)+'\ntrending_date: '+vid['trending_date']+'; title: '+vid['title']+'; channel_title: '+vid['channel_title']+'; publish_time: '+vid['publish_time']+'; views: '+vid['views']+'; likes: '+vid['likes']+ '; dislikes: '+vid['dislikes']+'\n'
+                    c=c+'\nPuesto '+str(i)+'\ntrending_date: '+str(vid['trending_date'])+'; title: '+vid['title']+'; channel_title: '+vid['channel_title']+'; publish_time: '+vid['publish_time']+'; views: '+vid['views']+'; likes: '+vid['likes']+ '; dislikes: '+vid['dislikes']+'\n'
                     i+=1
                 return c
 

@@ -63,7 +63,7 @@ while True:
         controller.loadData(catalog)
         print("\nSe cargaron " + str(lt.size(catalog['videos'])) + " datos de video y " + str(lt.size(catalog['categories'])) + " de categorías.")
         v=lt.firstElement(catalog['videos'])
-        print("\nInformación del primer video cargado \n" +"Título: "+v['title']+"\nTítulo del canal: "+v['channel_title']+"\nTrending date: "+v['trending_date']+"\nPaís: "+v['country']+"\nVistas: "+v['views']+ "\nLikes: "+v['likes']+"\nDislikes: "+v['dislikes']+'\n')
+        print("\nInformación del primer video cargado \n" +"Título: "+v['title']+"\nTítulo del canal: "+v['channel_title']+"\nTrending date: "+str(v['trending_date'])+"\nPaís: "+v['country']+"\nVistas: "+v['views']+ "\nLikes: "+v['likes']+"\nDislikes: "+v['dislikes']+'\n')
         print("\nLista de categorías " + "\nID - Nombre")
         i=it.newIterator(catalog['categories'])
         while it.hasNext(i):
@@ -80,13 +80,15 @@ while True:
 
 
     elif int(inputs[0]) == 3:
-        pais = input('Ingrese el país: ')
-        v = controller.Requerimiento2(pais,catalog)
-        channel_title= v['channel_title']
-        title= v['title']
-        country = v["country"]
-        numero_de_dias = v["dias"]
+        pais = input('Ingrese el pais: ')
+        tupla = controller.R2(pais,catalog)
+    
+        channel_title= tupla[1]
+        title= tupla[0]
+        country = tupla[3]
+        numero_de_dias = tupla[4]
         print('\ntitle: '+title+'; channel_title: '+channel_title+'; country: '+country+'; numero de dias: '+str(numero_de_dias) +'\n')
+     
    
 
     elif int(inputs[0]) == 4:
@@ -118,7 +120,6 @@ while True:
     else:
         sys.exit(0)
 sys.exit(0)
-
 
 """   elif int(inputs[0])==9:
         categoria=input('Ingrese la categoría: ')
