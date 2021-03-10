@@ -101,9 +101,19 @@ while True:
     elif int(inputs[0])==5:
         tag=input('Ingrese el tag: ')
         pais=input('Ingrese el país: ')
-        num=int(input('Ingrese el número: '))
+        num=int(input('Ingrese el número de videos: '))
         x=controller.R4(tag,pais,num,catalog)
         print('\n'+x+'\n')
+
+    elif int(inputs[0])==8:
+        pais=input('Ingrese el país: ')
+        x=controller.R2(pais,catalog)
+        print(x)
+
+    elif int(inputs[0])==9:
+        categoria=input('Ingrese la categoría: ')
+        x=controller.R3(categoria,catalog)
+        print(x)
 
     else:
         sys.exit(0)

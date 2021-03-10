@@ -77,19 +77,24 @@ def R2(pais,catalog):
     if l1==None:
         return 'No hay información para esta categoría.'
     else:
-        orde=model.sortVideos(l1,lt.size(l1),model.cmpVideosbyTitleandDate)[1]
+        orde=model.sortVideos(l1,lt.size(l1),model.cmpVideosbyTitle)[1]
         tupla=model.maxdias(orde)
-        return tupla[0]
+        return tupla
 
 def R3(categoria,catalog):
     ID=model.categoriaporID(categoria,catalog)
     if ID==None:
         return 'Categoría no válida'
     else:
+        print(ID)
         l1=model.lporcategoria(ID,catalog['videos'])
-        l2=model.sortVideos(l1,lt.size(l1),model.cmpVideosbyTitleandDate)
+        print(lt.firstElement(l1))
+        l2=model.sortVideos(l1,lt.size(l1),model.cmpVideosbyTitle)[1]
+        print(lt.firstElement(l2))
         tupla=model.maxdias(l2)
-        return tupla[0]
+        return tupla
+    
+
 
 def R4(tag,pais,num,catalog):
     l1=model.lportyp(tag,pais,catalog['videos'])

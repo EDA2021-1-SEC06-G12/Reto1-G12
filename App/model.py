@@ -145,8 +145,25 @@ def lportyp(tag,pais,lista):
     else:
         return final
 
+def maxtrending(lista):
+    parcial=1
+    total=1
+    title=''
+    i=2
+    while i<=lt.size(lista):
+        v=lt.getElement(lista,i)['title']
+        ant=lt.getElement(lista,i-1)['title']
+        if v==ant:
+            parcial+=1
+        else:
+            if parcial>total:
+                total=parcial
+                title=v
+            parcial=1
+        i+=1
+    return title,total
 
-def maxdias(lista):
+"""def maxdias(lista):
     title=''
     mayortotal=0
     mayorparcial=1
@@ -157,6 +174,36 @@ def maxdias(lista):
         if vid['title']==ant['title']:
             if vid['trending_date']!=ant['trending_date']:
                 mayorparcial+=1
+        else:
+            if mayorparcial>mayortotal:
+                mayortotal=mayorparcial
+                title=ant['title']
+                channel_title=ant['channel_title']
+                category_id=ant['category_id']
+                country=ant['country']
+
+            mayorparcial=0
+        n+=1
+
+    if mayorparcial>mayortotal:
+        mayortotal=mayorparcial
+        title=ant['title']
+        channel_title=ant['channel_title']
+        category_id=ant['category_id']
+        country=ant['country']
+
+    return title,channel_title,category_id,country,mayortotal"""
+
+def maxdias(lista):
+    title=''
+    mayortotal=0
+    mayorparcial=1
+    n=2
+    while n<=lt.size(lista):
+        vid=lt.getElement(lista,n)
+        ant=lt.getElement(lista,n-1)
+        if vid['title']==ant['title']:
+            mayorparcial+=1
         else:
             if mayorparcial>mayortotal:
                 mayortotal=mayorparcial
