@@ -33,6 +33,7 @@ from DISClib.Algorithms.Sorting import insertionsort as inss
 from DISClib.Algorithms.Sorting import selectionsort as sels
 from DISClib.Algorithms.Sorting import mergesort as mrge
 from DISClib.Algorithms.Sorting import quicksort as quck
+from DISClib.DataStructures import listiterator as it
 assert cf
 
 """
@@ -55,7 +56,61 @@ def addCategory(catalog,category):
 
 # Funciones de consulta
 
+def categoriaporID(name,catalog):
+    categorias=catalog['categories']
+    i=1
+    while i<=lt.size(categorias) and centinela:
+        c=lt.getElement(categorias,i)
+        if name.lower() in (c['name']).lower():
+            return c['id']
+        i+=1
+
+
+def lporcyp(ID,pais,lista):
+    v=it.newIterator(lista)
+    final=lt.newList(datastructure='ARRAY_LIST')
+    while it.hasNext(v):
+        x=it.next(v)
+        if x['country']==pais and x['category_id']==ID:
+            lt.addLast(final,x)
+    if lt.isEmpty(final)==True:
+        return None
+    else:
+        return final
+
+
+
 def lporcategoria(categoria,lista,catalog):
+    categorias=catalog['categories']
+    ID=categoriaporID(categoria, catalog)
+    final=lt.newList()
+    i=1
+    while i<=lt.size(lista):
+        v=lt.getElement(lista,i)
+        if v['category_id']==ide:
+            lt.addFirst(final,v)
+        i+=1
+    if lt.size(final)==0:
+        return None
+    else:
+        return final
+
+
+def lporpais(pais,lista):
+    final=lt.newList()
+    n=1
+    while n<=lt.size(lista):
+        v=lt.getElement(lista,n)
+        if v['country'].lower()==pais.lower():
+            lt.addFirst(final,v)
+        n+=1
+    if lt.size(final)==0:
+        return None
+    else:
+        return final
+
+
+def lporcategoriaypais(categoria,pais,lista):
     categorias=catalog['categories']
     n=1
     ide=0
@@ -72,7 +127,7 @@ def lporcategoria(categoria,lista,catalog):
         i=1
         while i<=lt.size(lista):
             v=lt.getElement(lista,i)
-            if v['category_id']==ide:
+            if v['category_id']==ide and pais.lower()==v['country'].lower():
                 lt.addFirst(final,v)
             i+=1
         if lt.size(final)==0:
@@ -81,19 +136,48 @@ def lporcategoria(categoria,lista,catalog):
             return final
 
 
-def lporpais(pais,lista):
-    final=lt.newList()
-    n=1
-    while n<=lt.size(lista):
-        v=lt.getElement(lista,n)
-        if v['country'].lower()==pais.lower():
-            lt.addFirst(final,v)
-        n+=1
-    if lt.size(final)==0:
-        return None
-    else:
-        return final
 
+def listaportag(tag,lista):
+    n = 1
+    listatag = lt.newList()
+    while n<=lt.size(lista):
+        x = lt.getElement(lista,n)
+        if tag in x['tags']:
+            lt.addLast(listatag,x)
+        n+=1
+    return listatag
+
+
+def maxdias(lista):
+    title=''
+    mayortotal=0
+    mayorparcial=1
+    n=2
+    while n<=lt.size(lista):
+        vid=lt.getElement(lista,n)
+        ant=lt.getElement(lista,n-1)
+        if vid['title']==ant['title']:
+            if vid['trending_date']!=ant['trending_date']:
+                mayorparcial+=1
+        else:
+            if mayorparcial>mayortotal:
+                mayortotal=mayorparcial
+                title=ant['title']
+                channel_title=ant['channel_title']
+                category_id=ant['category_id']
+                country=ant['country']
+
+            mayorparcial=0
+        n+=1
+
+    if mayorparcial>mayortotal:
+        mayortotal=mayorparcial
+        title=ant['title']
+        channel_title=ant['channel_title']
+        category_id=ant['category_id']
+        country=ant['country']
+
+    return title,channel_title,category_id,country,mayortotal
 
 
 
@@ -172,7 +256,7 @@ def imprimir(titulo,catalog):
     while n<=lt.size(videos):
         x=lt.getElement(videos,n)
         nombre=x['title']
-        if nombre == titulo:
+        if titulo in nombre:
             m+=1
             p.append(x['trending_date'])
             if x['trending_date'] not in l:
@@ -260,20 +344,7 @@ def Req4(tag,numero_vid,pais,catalog):
     listapaistag = sortVideos(listapaistag,lt.size(listapaistag),cmpVideosbyLikes)[1]
     return listapaistag
 
-def listaportag(tag,lista):
-    videos = lista
-    n = 1
-    listatag = lt.newList()
-    while n<=lt.size(videos):
-        x = lt.getElement(videos,n)
-        tags_x = x["tags"]
 
-        if tag in tags_x:
-            lt.addLast(listatag,x)
-        
-        n += 1
-    
-    return listatag
 
 # Funciones para creacion de datos
 
@@ -287,7 +358,13 @@ def cmpVideosbyLikes(video1,video2):
     return(int(video1["likes"])>=int(video2["likes"]))
 
 def cmpVideosbyTitle(video1,video2):
-    return (video1['title'])>=(video2['title'])
+    return (video1['title'])>(video2['title'])
+
+def cmpVideosbyTitleandDate(video1,video2):
+    if (video1['title'])>(video2['title']):
+        return True
+    elif video1['title']==video2['title']:
+        return video1['trending_date']>video2['trending_date']
 
 def cmpVideosbyDate(video1,video2):
     return (video1['trending_date'])>=(video2['trending_date'])

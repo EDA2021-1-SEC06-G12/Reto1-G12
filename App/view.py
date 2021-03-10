@@ -84,26 +84,12 @@ while True:
             n+=1
         print('\n')
 
-
-    elif int(inputs[0]) == 2:
-        print('\n')
-        numero=int(input('Ingrese el número de videos: '))
-        pais=input('Ingrese el país: ')
+    elif int(inputs[0])==2:
         categoria=input('Ingrese la categoría: ')
-        print('\nCargando...\n')
-        l=controller.Req1(pais,categoria,catalog,numero)
-        n=1
-        while n<=lt.size(l):
-            v=lt.getElement(l,n)
-            trending_date=v['trending_date']
-            title=v['title']
-            channel_title=v['channel_title']
-            publish_time=v['publish_time']
-            views=time=v['views']
-            likes=v['likes']
-            dislikes=v['dislikes']
-            print('Puesto ' + str(n) + '\ntrending_date: ' + trending_date + '; title: ' + title +'; channel_title: '+channel_title + '; publish_time: ' +publish_time +'; views: '+views+'; likes: '+likes+ '; dislikes: ' + dislikes + '\n')
-            n+=1
+        pais=input('Ingrese el país: ')
+        num=int(input('Ingrese el número de videos: '))
+        v=controller.R1(categoria,pais,num,catalog)
+        print('\n'+v+'\n')
 
 
     elif int(inputs[0]) == 3:
@@ -162,6 +148,13 @@ while True:
         num=int(input('Ingrese el número de videos: '))
         x=controller.Requerimiento1(categoria,pais,num,catalog)
         print('\n'+x+'\n')
+
+    elif int(inputs[0])==88:
+        pais=input('Ingrese el país: ')
+        x=controller.Requerimiento2(pais,catalog)
+        print(x)
+
+
 
 
     else:
