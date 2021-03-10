@@ -91,7 +91,7 @@ while True:
         pais=input('Ingrese el país: ')
         categoria=input('Ingrese la categoría: ')
         print('\nCargando...\n')
-        l=controller.Requerimiento1(pais,categoria,catalog,numero)
+        l=controller.Req1(pais,categoria,catalog,numero)
         n=1
         while n<=lt.size(l):
             v=lt.getElement(l,n)
@@ -155,6 +155,14 @@ while True:
         category_id=vid[2]
         dias=vid[3]
         print('\ntitle: ' + title +'; channel_title: '+channel_title+'; category_id: '+str(category_id)+'; días: '+str(dias)+'\n')
+
+    elif int(inputs[0])==7:
+        categoria=input('Ingrese la categoría: ')
+        pais=input('Ingrese el país: ')
+        num=int(input('Ingrese el número de videos: '))
+        x=controller.Requerimiento1(categoria,pais,num,catalog)
+        print('\n'+x+'\n')
+
 
     else:
         sys.exit(0)

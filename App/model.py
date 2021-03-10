@@ -54,6 +54,52 @@ def addCategory(catalog,category):
     lt.addLast(catalog['categories'],category)
 
 # Funciones de consulta
+
+def lporcategoria(categoria,lista,catalog):
+    categorias=catalog['categories']
+    n=1
+    ide=0
+    final=lt.newList()
+    while n<=lt.size(categorias):
+        c=lt.getElement(categorias,n)
+        if categoria.lower() in c['name'].lower():
+            ide=c['id']
+        n+=1
+
+    if ide==0:
+        return None
+    else:
+        i=1
+        while i<=lt.size(lista):
+            v=lt.getElement(lista,i)
+            if v['category_id']==ide:
+                lt.addFirst(final,v)
+            i+=1
+        if lt.size(final)==0:
+            return None
+        else:
+            return final
+
+
+def lporpais(pais,lista):
+    final=lt.newList()
+    n=1
+    while n<=lt.size(lista):
+        v=lt.getElement(lista,n)
+        if v['country'].lower()==pais.lower():
+            lt.addFirst(final,v)
+        n+=1
+    if lt.size(final)==0:
+        return None
+    else:
+        return final
+
+
+
+
+
+
+
 def Req1(pais,categoria,catalog,num):
     lista=catalog["videos"]
     final=lt.newList()
@@ -248,10 +294,9 @@ def cmpVideosbyDate(video1,video2):
 
 # Funciones de ordenamiento
 
-def sortVideos(lista, size,cmpfunction):
-    videos=lista
-    if size <= lt.size(videos):
-        sub_list = lt.subList(videos, 1, size)
+def sortVideos(lista,size,cmpfunction):
+    if size <= lt.size(lista):
+        sub_list = lt.subList(lista, 1, size)
         sub_list = sub_list.copy()
         start_time=time.process_time()
         mrge.sort(sub_list, cmpfunction)
@@ -259,6 +304,6 @@ def sortVideos(lista, size,cmpfunction):
         elapsed_time_mseg = round((stop_time - start_time)*1000,2)
         return elapsed_time_mseg, sub_list
     else:
-        return 'La cifra insertada excede la cantidad de datos de video disponibles.'
+        return None
 
 

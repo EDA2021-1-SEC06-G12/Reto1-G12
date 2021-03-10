@@ -23,6 +23,7 @@
 import config as cf
 import model
 import csv
+from DISClib.ADT import list as lt
 
 
 """
@@ -34,7 +35,7 @@ def initCatalog():
     return model.initCatalog()
 
 def loadData(catalog):
-    videosfile = cf.data_dir + 'videos-large.csv'
+    videosfile = cf.data_dir + 'videos-small.csv'
     input_file = csv.DictReader(open(videosfile, encoding='utf-8'))
     for video in input_file:
         model.addVideo(catalog, video)
@@ -46,7 +47,31 @@ def loadData(catalog):
 def mejoresVideosPorViews(catalog, size):
     return model.sortVideos(catalog,size,cmpVideosbyViews)
 
-def Requerimiento1(pais,categoria,catalog,num):
+def Requerimiento1(categoria,pais,num,catalog):
+    l1=model.lporcategoria(categoria,catalog['videos'],catalog)
+    if l1==None:
+        return 'No hay información para esta categoría.'
+    else:
+        l2=model.lporpais(pais,l1)
+        if l2==None:
+            return 'No hay información para este país.'
+        else:
+            l3=model.sortVideos(l2,lt.size(l2),model.cmpVideosbyViews)
+            if l3==None or num>lt.size(l3[1]):
+                return 'El número ingresado excede la cantidad de videos disponibles.'
+            else:
+                lfinal=lt.subList(l3[1],1,num)
+                i=1
+                c=''
+                while i<=num:
+                    vid=lt.getElement(lfinal,i)
+                    c=c+'\nPuesto '+str(i)+'\ntrending_date: '+vid['trending_date']+'; title: '+vid['title']+'; channel_title: '+vid['channel_title']+'; publish_time: '+vid['publish_time']+'; views: '+vid['views']+'; likes: '+vid['likes']+ '; dislikes: '+vid['dislikes']+'\n'
+                    i+=1
+                return c
+
+
+
+def Req1(pais,categoria,catalog,num):
     return model.Req1(pais,categoria,catalog,num)
 
 
