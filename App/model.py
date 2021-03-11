@@ -223,7 +223,7 @@ def sacar(num,lista):
         lt.addLast(titulos,primero['title'])
         lt.addLast(final,primero)
         i=it.newIterator(lista)
-        while it.hasNext(i) and lt.size(final)<=num:
+        while it.hasNext(i) and lt.size(final)<num:
             v=it.next(i)
             tit = v["title"]
             x = lt.isPresent(titulos,tit)
