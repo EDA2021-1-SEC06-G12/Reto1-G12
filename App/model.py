@@ -214,16 +214,21 @@ def maxrep(parametro,lista):
 
 def sacar(num,lista):
     if num<=lt.size(lista):
-        titulos=[]
-        final=lt.newList()
+        titulos=lt.newList(datastructure="ARRAY_LIST")
+        print(titulos)
+        final=lt.newList(datastructure="ARRAY_LIST")
+        print(final)
         primero=lt.firstElement(lista)
-        titulos.append(primero['title'])
+        print(primero)
+        lt.addLast(titulos,primero['title'])
         lt.addLast(final,primero)
         i=it.newIterator(lista)
-        while it.hasNext(i) and lt.size(final)<num:
+        while it.hasNext(i) and lt.size(final)<=num:
             v=it.next(i)
-            if v['title'] not in titulos:
-                titulos.append(v['title'])
+            tit = v["title"]
+            x = lt.isPresent(titulos,tit)
+            if x == 0:
+                lt.addLast(titulos,v['title'])
                 lt.addLast(final,v)
         return final
     else:

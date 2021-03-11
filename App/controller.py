@@ -113,6 +113,12 @@ def R4(tag,pais,num,catalog):
         return 'No hay información para el país y/o tag ingresados.'
     else:
         orde=model.sortVideos(l1,lt.size(l1),model.cmpVideosbyLikes)[1]
+        """
+        print("orde")
+        print(lt.subList(orde,1,10))
+        print("")
+        """
+
         final=model.sacar(num,orde)
         if final==None:
             return 'El número ingresado excede la cantidad de videos que cumplen con los requisitos.'
