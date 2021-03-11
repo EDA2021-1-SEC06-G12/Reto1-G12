@@ -79,7 +79,6 @@ def lporcyp(ID,pais,lista):
         return final
 
 
-
 def lporcategoria(ID,lista):
     final=lt.newList(datastructure='ARRAY_LIST')
     i=it.newIterator(lista)
@@ -100,7 +99,10 @@ def lporpais(pais,lista):
         v=it.next(i)
         if pais.lower() == v['country'].lower():
             lt.addLast(final,v)
-    return final
+    if lt.size(final)==0:
+        return None
+    else:
+        return final
 
 
 def lporcategoriaypais(categoria,pais,lista):
@@ -129,7 +131,6 @@ def lporcategoriaypais(categoria,pais,lista):
             return final
 
 
-
 def lportyp(tag,pais,lista):
     i=it.newIterator(lista)
     final=lt.newList(datastructure='ARRAY_LIST')
@@ -141,7 +142,6 @@ def lportyp(tag,pais,lista):
         return None
     else:
         return final
-
 
 
 def maxnorep(parametro,lista):
@@ -211,15 +211,11 @@ def maxrep(parametro,lista):
     return title,channel_title,category_id,country,mayortotal
 
 
-
 def sacar(num,lista):
     if num<=lt.size(lista):
         titulos=lt.newList(datastructure="ARRAY_LIST")
-        print(titulos)
         final=lt.newList(datastructure="ARRAY_LIST")
-        print(final)
         primero=lt.firstElement(lista)
-        print(primero)
         lt.addLast(titulos,primero['title'])
         lt.addLast(final,primero)
         i=it.newIterator(lista)

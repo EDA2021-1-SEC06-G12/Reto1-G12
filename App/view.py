@@ -41,10 +41,10 @@ operación solicitada
 def printMenu():
     print("Bienvenida/o")
     print("1- Cargar información en el catálogo")
-    print("2- Consultar el número que se desee de videos con más views que son tendencia en el país y categoría de interés")
+    print("2- Consultar el número que se desee de videos con más views en el país y categoría de interés")
     print("3- Consultar el video que ha estado trending por más días en el país que se desee")
     print("4- Consultar el video que ha estado trending por más días en la categoría que se desee")
-    print("5- Consultar el número que se desee de videos con más views que son tendencia en el país y tag de interés")
+    print("5- Consultar el número que se desee de videos con más views en el país y tag de interés")
     print("0- Salir")
 
 

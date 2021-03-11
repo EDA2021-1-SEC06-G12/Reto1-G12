@@ -77,7 +77,7 @@ def R1(categoria,pais,num,catalog):
                     n+=1
                     vid=it.next(i)
                     c=c+'\nPuesto '+str(n)+'\ntrending_date: '+str(vid['trending_date'])+'; title: '+vid['title']+'; channel_title: '+vid['channel_title']+'; publish_time: '+vid['publish_time']+'; views: '+vid['views']+'; likes: '+vid['likes']+ '; dislikes: '+vid['dislikes']+'\n'
-                return c
+                return 'Información de los '+str(num)+' videos con más views en '+pais+' para la categoría de '+categoria+':\n'+c
 
 
 def R2(pais,catalog):
@@ -87,7 +87,7 @@ def R2(pais,catalog):
     else:
         l2 = model.sortVideos(l1,lt.size(l1),model.cmpVideosbyTitleandDate)[1]
         tupla=model.maxrep('title',l2)
-        return 'title: '+tupla[0]+'; channel_title: '+tupla[1]+'; country: '+tupla[3]+'; días: '+str(tupla[4])
+        return '\nInformación del video trending por más días en '+pais+':\ntitle: '+tupla[0]+'; channel_title: '+tupla[1]+'; country: '+tupla[3]+'; días: '+str(tupla[4])
 
 
 def R3(categoria,rep,catalog):
@@ -104,7 +104,7 @@ def R3(categoria,rep,catalog):
         else:
             return 'La opción ingresada (diferente a 0 y 1) no es válida'
 
-        return 'title: '+tupla[0]+'; channel_title: '+tupla[1]+'; category_id: '+tupla[2]+'; días: '+str(tupla[4])
+        return '\nInformación del video trending por más días para la categoría de '+categoria+':\ntitle: '+tupla[0]+'; channel_title: '+tupla[1]+'; category_id: '+tupla[2]+'; días: '+str(tupla[4])
     
 
 def R4(tag,pais,num,catalog):
@@ -113,12 +113,6 @@ def R4(tag,pais,num,catalog):
         return 'No hay información para el país y/o tag ingresados.'
     else:
         orde=model.sortVideos(l1,lt.size(l1),model.cmpVideosbyLikes)[1]
-        """
-        print("orde")
-        print(lt.subList(orde,1,10))
-        print("")
-        """
-
         final=model.sacar(num,orde)
         if final==None:
             return 'El número ingresado excede la cantidad de videos que cumplen con los requisitos.'
@@ -130,7 +124,7 @@ def R4(tag,pais,num,catalog):
                 n+=1
                 v=it.next(i)
                 c=c+'\nPuesto '+str(n)+'\ntitle: '+v['title']+'; channel_title: '+v['channel_title']+'; publish_time: '+str(v['publish_time'])+'; views: '+str(v['views'])+'; likes: '+str(v['likes'])+'; dislikes: '+str(v['dislikes'])+'; tags: '+v['tags']+'\n'
-            return c
+            return 'Información de los '+str(num)+' videos con más views en '+pais+' con el tag de '+tag+':\n'+c
 
 
 # Funciones para la carga de datos
