@@ -113,17 +113,19 @@ def R4(tag,pais,num,catalog):
         return 'No hay información para el país y/o tag ingresados.'
     else:
         orde=model.sortVideos(l1,lt.size(l1),model.cmpVideosbyLikes)[1]
-        print(lt.firstElement(orde))
-        print(lt.lastElement(orde))
-        final=lt.subList(orde,1,num)
-        i=it.newIterator(final)
-        c=''
-        n=0
-        while it.hasNext(i):
-            n+=1
-            v=it.next(i)
-            c=c+'\nPuesto '+str(n)+'\ntitle: '+v['title']+'; channel_title: '+v['channel_title']+'; publish_time: '+v['publish_time']+'; views: '+v['views']+'; likes: '+v['likes']+'; dislikes: '+v['dislikes']+'; tags: '+v['tags']+'\n'
-        return c
+        final=model.sacar(num,orde)
+        if final==None:
+            return 'El número ingresado excede la cantidad de videos que cumplen con los requisitos.'
+        else:
+            c=''
+            i=it.newIterator(final)
+            n=0
+            while it.hasNext(i):
+                n+=1
+                v=it.next(i)
+                c=c+'\nPuesto '+str(n)+'\ntitle: '+v['title']+'; channel_title: '+v['channel_title']+'; publish_time: '+str(v['publish_time'])+'; views: '+str(v['views'])+'; likes: '+str(v['likes'])+'; dislikes: '+str(v['dislikes'])+'; tags: '+v['tags']+'\n'
+            return c
+
 
 # Funciones para la carga de datos
 

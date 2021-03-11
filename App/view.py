@@ -70,6 +70,7 @@ while True:
             x=it.next(i)
             print(str(x['id']) + " - " + str(x['name']))
         print('\n')
+        input('Presione enter para continuar')
 
 
     elif int(inputs[0])==2:
@@ -78,12 +79,14 @@ while True:
         num=int(input('Ingrese el número de videos: '))
         v=controller.R1(categoria,pais,num,catalog)
         print('\n'+v+'\n')
+        input('Presione enter para continuar')
 
     
     elif int(inputs[0])==3:
         pais=input('Ingrese el país: ')
         x=controller.R2(pais,catalog)
         print('\n'+x+'\n')
+        input('Presione enter para continuar')
    
 
     elif int(inputs[0])==4:
@@ -91,6 +94,7 @@ while True:
         repetidas=int(input('¿Contar fechas en países distintos como una sola? (1: sí / 0: no): '))
         x=controller.R3(categoria,repetidas,catalog)
         print('\n'+x+'\n')
+        input('Presione enter para continuar')
 
 
     elif int(inputs[0])==5:
@@ -99,7 +103,7 @@ while True:
         num=int(input('Ingrese el número de videos: '))
         x=controller.R4(tag,pais,num,catalog)
         print('\n'+x+'\n')
-
+        input('Presione enter para continuar')
 
     else:
         sys.exit(0)

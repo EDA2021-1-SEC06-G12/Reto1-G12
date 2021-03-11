@@ -211,6 +211,26 @@ def maxrep(parametro,lista):
     return title,channel_title,category_id,country,mayortotal
 
 
+
+def sacar(num,lista):
+    if num<=lt.size(lista):
+        titulos=[]
+        final=lt.newList()
+        primero=lt.firstElement(lista)
+        titulos.append(primero['title'])
+        lt.addLast(final,primero)
+        i=it.newIterator(lista)
+        while it.hasNext(i) and lt.size(final)<num:
+            v=it.next(i)
+            if v['title'] not in titulos:
+                titulos.append(v['title'])
+                lt.addLast(final,v)
+        return final
+    else:
+        return None
+
+
+
 # Funciones para creacion de datos
 
 
@@ -239,6 +259,12 @@ def cmpVideosbyTitleandDate(video1,video2):
 
 def cmpVideosbyTitle(video1,video2):
     return (video1['title'])>=(video2['title'])
+
+def cmpVideosbyTitleandLikes(video1,video2):
+    if (video1['title'])>(video2['title']):
+        return True
+    elif video1['title']==video2['title']:
+        return video1['likes']>video2['likes']
 
 
 """def cmpVideosbyIdandDate(video1,video2):
