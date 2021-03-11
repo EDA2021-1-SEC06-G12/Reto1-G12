@@ -268,21 +268,6 @@ def cmpVideosbyTitleandLikes(video1,video2):
         return video1['likes']>video2['likes']
 
 
-"""def cmpVideosbyIdandDate(video1,video2):
-    if (video1['video_id'])>(video2['video_id']):
-        return True
-    elif video1['title']==video2['title']:
-        return video1['trending_date']>video2['trending_date']
-
-def cmpVideosbyDate(video1,video2):
-    return (video1['trending_date'])>=(video2['trending_date'])
-
-def cmpVideosbyId(video1,video2):
-    return (video1['video_id'])>=(video2['video_id'])
-
-def cmpVideosbyCat(video1,video2):
-    return (int(video1['category_id']))>=(int(video2['category_id']))"""
-
 # Funciones de ordenamiento
 
 def sortVideos(lista,size,cmpfunction):
