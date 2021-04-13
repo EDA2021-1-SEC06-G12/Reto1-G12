@@ -57,6 +57,12 @@ def addCategory(catalog,category):
 # Funciones de consulta
 
 def categoriaporID(name,catalog):
+    """Recibe el nombre de una categoría y halla su respectivo ID
+        name(str): nombre de la categoría
+        catalog: catalog
+    retorna:
+        str: ID de la categoría"""
+
     categorias=catalog['categories']
     i=1
     while i<=lt.size(categorias):
@@ -67,6 +73,12 @@ def categoriaporID(name,catalog):
 
 
 def lporcyp(ID,pais,lista):
+    """Crea una lista de videos de la categoría y el país requeridos
+        ID(int): ID de la categoría de los videos a seleccionar
+        pais(str): país de los videos a seleccionar
+        lista: lista general
+    retorna:
+        lista: con sólo los elementos que cumplen con los parámetros"""
     v=it.newIterator(lista)
     final=lt.newList(datastructure='ARRAY_LIST')
     while it.hasNext(v):
@@ -80,6 +92,11 @@ def lporcyp(ID,pais,lista):
 
 
 def lporcategoria(ID,lista):
+    """Crea una lista de videos de la categoría requerida
+        ID(int): ID de la categoría de los videos a seleccionar
+        lista: lista general
+    retorna:
+        lista: con sólo los elementos que cumplen con los parámetros"""
     final=lt.newList(datastructure='ARRAY_LIST')
     i=it.newIterator(lista)
     while it.hasNext(i):
@@ -93,6 +110,11 @@ def lporcategoria(ID,lista):
 
 
 def lporpais(pais,lista):
+    """Crea una lista de videos del país requerido
+        pais(str): país de los videos a seleccionar
+        lista: lista general
+    retorna:
+        lista: con sólo los elementos que cumplen con los parámetros"""
     final=lt.newList(datastructure='ARRAY_LIST')
     i=it.newIterator(lista)
     while it.hasNext(i):
@@ -105,33 +127,13 @@ def lporpais(pais,lista):
         return final
 
 
-def lporcategoriaypais(categoria,pais,lista):
-    categorias=catalog['categories']
-    n=1
-    ide=0
-    final=lt.newList(datastructure='ARRAY_LIST')
-    while n<=lt.size(categorias):
-        c=lt.getElement(categorias,n)
-        if categoria.lower() in c['name'].lower():
-            ide=c['id']
-        n+=1
-
-    if ide==0:
-        return None
-    else:
-        i=1
-        while i<=lt.size(lista):
-            v=lt.getElement(lista,i)
-            if v['category_id']==ide and pais.lower()==v['country'].lower():
-                lt.addFirst(final,v)
-            i+=1
-        if lt.size(final)==0:
-            return None
-        else:
-            return final
-
-
 def lportyp(tag,pais,lista):
+    """Crea una lista de videos del tag y el país requeridos
+        tag: tag presente en los videos a seleccionar
+        pais(str): país de los videos a seleccionar
+        lista: lista general
+    retorna:
+        lista: con sólo los elementos que cumplen con los parámetros"""
     i=it.newIterator(lista)
     final=lt.newList(datastructure='ARRAY_LIST')
     while it.hasNext(i):
@@ -145,6 +147,11 @@ def lportyp(tag,pais,lista):
 
 
 def maxnorep(parametro,lista):
+    """Halla el video con más días siendo tendencia considerando que la misma fecha para dos países diferentes son lo mismo
+        parametro: con el cual compara los videos para revisar si son el mismo
+        lista: lista de videos
+    retorna:
+        tupla: con distintas variables del video"""
     title=''
     mayortotal=0
     mayorparcial=1
@@ -182,6 +189,11 @@ def maxnorep(parametro,lista):
 
 
 def maxrep(parametro,lista):
+    """Halla el video con más días siendo tendencia sin considerar que la misma fecha para dos países diferentes son lo mismo
+        parametro: con el cual compara los videos para revisar si son el mismo
+        lista: lista de videos
+    retorna:
+        tupla: con distintas variables del video"""
     mayorparcial=1
     mayortotal=1
     title=''
@@ -212,6 +224,11 @@ def maxrep(parametro,lista):
 
 
 def sacar(num,lista):
+    """No permite que se repita un video en una lista
+        num: número de elementos de la nueva lista
+        lista: lista general
+    retorna:
+        lista sin valores repetidos."""
     if num<=lt.size(lista):
         titulos=lt.newList(datastructure="ARRAY_LIST")
         final=lt.newList(datastructure="ARRAY_LIST")
