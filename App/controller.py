@@ -23,6 +23,9 @@
 import config as cf
 import model
 import csv
+import time
+import tracemalloc
+
 from DISClib.ADT import list as lt
 from DISClib.DataStructures import listiterator as it
 from datetime import datetime
@@ -57,6 +60,13 @@ def mejoresVideosPorViews(catalog, size):
 
 
 def R1(categoria,pais,num,catalog):
+    delta_time = -1.0
+    delta_memory = -1.0
+
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
+
     ID=model.categoriaporID(categoria,catalog)
     if ID==None:
         return 'Categoría no válida'
@@ -77,20 +87,46 @@ def R1(categoria,pais,num,catalog):
                     n+=1
                     vid=it.next(i)
                     c=c+'\nPuesto '+str(n)+'\ntrending_date: '+str(vid['trending_date'])+'; title: '+vid['title']+'; channel_title: '+vid['channel_title']+'; publish_time: '+vid['publish_time']+'; views: '+vid['views']+'; likes: '+vid['likes']+ '; dislikes: '+vid['dislikes']+'\n'
-                return 'Información de los '+str(num)+' videos con más views en '+pais+' para la categoría de '+categoria+':\n'+c
+                stop_memory = getMemory()
+                stop_time = getTime()
+                tracemalloc.stop()
+
+                delta_time = stop_time - start_time
+                delta_memory = deltaMemory(start_memory, stop_memory)
+                return ('Información de los '+str(num)+' videos con más views en '+pais+' para la categoría de '+categoria+':\n'+c,delta_time, delta_memory)
 
 
 def R2(pais,catalog):
+    delta_time = -1.0
+    delta_memory = -1.0
+
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
+
     l1 = model.lporpais(pais,catalog['videos'])
     if l1==None:
         return 'No hay información para este país.'
     else:
         l2 = model.sortVideos(l1,lt.size(l1),model.cmpVideosbyTitleandDate)[1]
         tupla=model.maxrep('title',l2)
-        return '\nInformación del video trending por más días en '+pais+':\ntitle: '+tupla[0]+'; channel_title: '+tupla[1]+'; country: '+tupla[3]+'; días: '+str(tupla[4])
+        stop_memory = getMemory()
+        stop_time = getTime()
+        tracemalloc.stop()
+
+        delta_time = stop_time - start_time
+        delta_memory = deltaMemory(start_memory, stop_memory)
+        return ('\nInformación del video trending por más días en '+pais+':\ntitle: '+tupla[0]+'; channel_title: '+tupla[1]+'; country: '+tupla[3]+'; días: '+str(tupla[4]),delta_time, delta_memory)
 
 
 def R3(categoria,rep,catalog):
+    delta_time = -1.0
+    delta_memory = -1.0
+
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
+
     ID=model.categoriaporID(categoria,catalog)
     if ID==None:
         return 'Categoría no válida'
@@ -103,11 +139,24 @@ def R3(categoria,rep,catalog):
             tupla=model.maxrep('title',l2)
         else:
             return 'La opción ingresada (diferente a 0 y 1) no es válida'
+        stop_memory = getMemory()
+        stop_time = getTime()
+        tracemalloc.stop()
 
-        return '\nInformación del video trending por más días para la categoría de '+categoria+':\ntitle: '+tupla[0]+'; channel_title: '+tupla[1]+'; category_id: '+tupla[2]+'; días: '+str(tupla[4])
+        delta_time = stop_time - start_time
+        delta_memory = deltaMemory(start_memory, stop_memory)
+
+        return ('\nInformación del video trending por más días para la categoría de '+categoria+':\ntitle: '+tupla[0]+'; channel_title: '+tupla[1]+'; category_id: '+tupla[2]+'; días: '+str(tupla[4]),delta_time, delta_memory)
     
 
 def R4(tag,pais,num,catalog):
+    delta_time = -1.0
+    delta_memory = -1.0
+
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
+
     l1=model.lportyp(tag,pais,catalog['videos'])
     if l1==None:
         return 'No hay información para el país y/o tag ingresados.'
@@ -124,7 +173,14 @@ def R4(tag,pais,num,catalog):
                 n+=1
                 v=it.next(i)
                 c=c+'\nPuesto '+str(n)+'\ntitle: '+v['title']+'; channel_title: '+v['channel_title']+'; publish_time: '+str(v['publish_time'])+'; views: '+str(v['views'])+'; likes: '+str(v['likes'])+'; dislikes: '+str(v['dislikes'])+'; tags: '+v['tags']+'\n'
-            return 'Información de los '+str(num)+' videos con más views en '+pais+' con el tag de '+tag+':\n'+c
+            stop_memory = getMemory()
+            stop_time = getTime()
+            tracemalloc.stop()
+
+            delta_time = stop_time - start_time
+            delta_memory = deltaMemory(start_memory, stop_memory)
+
+            return ('Información de los '+str(num)+' videos con más views en '+pais+' con el tag de '+tag+':\n'+c,delta_time, delta_memory)
 
 
 # Funciones para la carga de datos
@@ -132,3 +188,32 @@ def R4(tag,pais,num,catalog):
 # Funciones de ordenamiento
 
 # Funciones de consulta sobre el catálogo
+
+def getTime():
+    """
+    devuelve el instante tiempo de procesamiento en milisegundos
+    """
+    return float(time.perf_counter()*1000)
+
+
+def getMemory():
+    """
+    toma una muestra de la memoria alocada en instante de tiempo
+    """
+    return tracemalloc.take_snapshot()
+
+
+def deltaMemory(start_memory, stop_memory):
+    """
+    calcula la diferencia en memoria alocada del programa entre dos
+    instantes de tiempo y devuelve el resultado en bytes (ej.: 2100.0 B)
+    """
+    memory_diff = stop_memory.compare_to(start_memory, "filename")
+    delta_memory = 0.0
+
+    # suma de las diferencias en uso de memoria
+    for stat in memory_diff:
+        delta_memory = delta_memory + stat.size_diff
+    # de Byte -> kByte
+    delta_memory = delta_memory/1024.0
+    return delta_memory
